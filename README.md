@@ -1,10 +1,10 @@
 # Crypto Currency Forecaster
 
 ## Members
-Austin Sura  
-Nicholas Marcopoli  
-Sung Hyun Shin  
-Chan Hee Song  
+* Austin Sura  
+* Nicholas Marcopoli  
+* Sung Hyun Shin  
+* Chan Hee Song  
 
 ## Features
 - [x] Display current hottest and coldest N currencies
