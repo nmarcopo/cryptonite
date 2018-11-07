@@ -15,19 +15,24 @@ class _crypto_api:
         # calculated by doing open on first day to close on last day
         loop = asyncio.get_event_loop()
         respDict = {}
-        for item in self.top15List:
-            crypto_hottest_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(item, days)
-            respDict[item] = await loop.run_in_executor(None, requests.get, crypto_hottest_url)
-        
-        dataDict = {}
-        for key, value in respDict.items():
-            dataDict[key] = json.loads(val.content)
-        print(dataDict)
-        # Extract json reponse
+        if dataset is None:
+            for item in self.top15List:
+                crypto_hottest_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(item, days)
+                respDict[item] = await loop.run_in_executor(None, requests.get, crypto_hottest_url)
+        else:
+            respDict = dataset
+
+        # Extract json response
         coinDict = {}
         for key, val in respDict.items():
-            resp = json.loads(val.content)
-            cryptoDataDaysAgo = resp['Data'][0]['open']
+            if dataset is None:
+                resp = json.loads(val.content)
+            else:
+                resp = val
+            try:
+                cryptoDataDaysAgo = resp['Data'][0]['open']
+            except IndexError:
+                continue
             if cryptoDataDaysAgo == 0:
                 continue
             cryptoDataToday = resp['Data'][days]['close']
@@ -42,7 +47,7 @@ class _crypto_api:
         else:
             print("please type 'hot' or 'cold'")
             raise Exception
-            return
+            return None
         
         # Format output json
         data = {}
