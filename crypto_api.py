@@ -3,7 +3,7 @@ import requests
 import json
 
 
-# Austin Sura, just him
+# Austin Sura, Nicholas Marcopoli, Chan Hee Song, Sung Hyun Shin
 
 class _crypto_api:
     def __init__(self):
