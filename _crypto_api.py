@@ -16,25 +16,31 @@ class _crypto_api:
         loop = asyncio.get_event_loop()
         respDict = {}
         if dataset is None:
+            # call the api from online if no static dataset provided
             for item in self.top15List:
                 crypto_hottest_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(item, days)
                 respDict[item] = await loop.run_in_executor(None, requests.get, crypto_hottest_url)
         else:
+            # use the static dataset, if one is provided
             respDict = dataset
 
         # Extract json response
         coinDict = {}
         for key, val in respDict.items():
             if dataset is None:
+                # need to load content if it came from online source
                 resp = json.loads(val.content)
             else:
+                # don't load content if it's a static database
                 resp = val
             try:
                 cryptoDataDaysAgo = resp['Data'][0]['open']
             except IndexError:
+                # if the api ran out of free queries, skip that part of the data
                 continue
             if cryptoDataDaysAgo == 0:
                 continue
+            # calculate the hot measurements
             cryptoDataToday = resp['Data'][days]['close']
             hotMeasurement = (cryptoDataToday - cryptoDataDaysAgo) / cryptoDataDaysAgo * 100
             coinDict[key] = hotMeasurement
@@ -62,8 +68,6 @@ class _crypto_api:
         investment = []
         current = []
         awaitDict = {}
-        #print(dataset)
-        #print("what is this")
         # If there is no pre-loaded dataset
         if not dataset:
             loop = asyncio.get_event_loop()
@@ -77,25 +81,30 @@ class _crypto_api:
         # Read json response 
         for key, val in awaitDict.items():
             if not dataset:
+                # load in content if calling from the online api
                 resp = json.loads(val.content)
             else:
+                # don't load in content if calling from static database
                 resp = val
             cryptoDataDaysAgo = resp['Data'][0]['open']
             if cryptoDataDaysAgo == 0:
                 continue 
             cryptoDataToday = resp['Data'][days]['close']
             crypto_code.append(key)
+            # calculate amounts
             amount = cryptosAndAmount[key]
             investment.append(cryptoDataDaysAgo * amount)
             current.append(cryptoDataToday * amount)
         
         # Format json output
+        # calculate money gained (or lost) and percentage changed
         totalMoneyGained = sum(current) - sum(investment)
         percentChange = totalMoneyGained / sum(investment) * 100
         data={}
         data["Net Profit"]="{:.2f}".format(totalMoneyGained)
         data["Net Percentage"]="{:.2f}".format(percentChange)
         data["breakdown"]=[]
+        # build the json
         for i in range(len(crypto_code)):
             mydict={}
             mydict["crypto"]=crypto_code[i]
@@ -104,18 +113,3 @@ class _crypto_api:
             data["breakdown"].append(mydict)
             
         return json.dumps(data)
-                
-# Scratch space for the api
-if __name__ == "__main__":
-    test = _crypto_api()
-    #with open("whatif.dat") as f:
-    #    data = json.loads(f.readline().strip())
-    #loop = asyncio.get_event_loop()
-    #print(loop.run_until_complete(test.what_if_investment(100, {'BTC':2, 'DBC':100}, data)))
-
-    #loop = asyncio.get_event_loop()
-    #y = loop.run_until_complete(test.what_if_investment(100, {'BTC':2, 'DBC':100}))
-    #print(y)
-    loop = asyncio.get_event_loop()
-    x = loop.run_until_complete(test.find_hottest_coldest(10, 5, 'hot'))
-    print(x)
