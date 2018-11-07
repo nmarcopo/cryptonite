@@ -1,5 +1,8 @@
 # Crypto Currency Forecaster
 
+[Link to GitHub repository for reference](https://github.com/nmarcopo/programmingParadigmsProject)
+
+
 ## Members
 * Austin Sura (asura) 
 * Nicholas Marcopoli (nmarcopo) 
