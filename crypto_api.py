@@ -2,7 +2,8 @@ import asyncio
 import requests
 import json
 
-# Nick Marcopoli, just him
+
+# Austin Sura, just him
 
 class _crypto_api:
     def __init__(self):
@@ -41,6 +42,7 @@ class _crypto_api:
             return
         
         data = {}
+        data['mode'] = mode
         for item, val in sorted_by_value[0:topN]:
             data[item] = "{:.2f}%".format(val)
             #print("{}: {:.2f}%".format(item, val))
@@ -57,6 +59,7 @@ class _crypto_api:
             crypto_choice_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(crypto, days)
             r = requests.get(crypto_choice_url)
             resp = json.loads(r.content)
+           # print(resp)
             cryptoDataDaysAgo = resp['Data'][0]['open']
             if cryptoDataDaysAgo == 0:
                 print("This crypto, {}, didn't exist {} days ago. Not computing with this crypto.".format(crypto, days))
@@ -68,12 +71,21 @@ class _crypto_api:
        
         totalMoneyGained = sum(current) - sum(investment)
         percentChange = totalMoneyGained / sum(investment) * 100
-        print("Net change: ${:.2f}, {:.2f}%".format(totalMoneyGained, percentChange))
-        print()
+        data={}
+        data["Net Profit"]="{:.2f}".format(totalMoneyGained)
+        data["Net Percentage"]="{:.2f}".format(percentChange)
+        data["breakdown"]=[]
+        #print("Net change: ${:.2f}, {:.2f}%".format(totalMoneyGained, percentChange))
+        #print()
         for i in range(len(crypto_code)):
-            print("{}: {:.2f} {:.2f}%".format(crypto_code[i], current[i] - investment[i], (current[i] - investment[i]) / investment[i] * 100)) 
-
-
+            mydict={}
+            mydict["crypto"]=crypto_code[i]
+            mydict["profit"]="{:.2f}".format(current[i]-investment[i])
+            mydict["profit percentage"]="{:.2f}".format((current[i]-investment[i])/investment[i]*100)
+            data["breakdown"].append(mydict)
+            
+        return json.dumps(data)
+                
 
 
 
