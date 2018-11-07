@@ -10,6 +10,7 @@
 - [x] Display current hottest and coldest N currencies
 - [x] Cyrpto currency investement simulator
 - [x] User specific crypto currency wallet
+- [ ] Crypto currency investment recommender
 
 ## For November 7: OO API Due
 ### How to use this API:
