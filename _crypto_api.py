@@ -19,6 +19,10 @@ class _crypto_api:
             crypto_hottest_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(item, days)
             respDict[item] = await loop.run_in_executor(None, requests.get, crypto_hottest_url)
         
+        dataDict = {}
+        for key, value in respDict.items():
+            dataDict[key] = json.loads(val.content)
+        print(dataDict)
         # Extract json reponse
         coinDict = {}
         for key, val in respDict.items():
@@ -52,22 +56,31 @@ class _crypto_api:
         crypto_code = []
         investment = []
         current = []
-        loop = asyncio.get_event_loop()
-        
-        # Call async request
         awaitDict = {}
-        for crypto, amount in cryptosAndAmount.items():
-            crypto_choice_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(crypto, days)
-            awaitDict[crypto] = await loop.run_in_executor(None, requests.get, crypto_choice_url)
-        
+        #print(dataset)
+        #print("what is this")
+        # If there is no pre-loaded dataset
+        if not dataset:
+            loop = asyncio.get_event_loop()
+            # Call async request
+            for crypto, amount in cryptosAndAmount.items():
+                crypto_choice_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(crypto, days)
+                awaitDict[crypto] = await loop.run_in_executor(None, requests.get, crypto_choice_url)
+        else:
+            awaitDict = dataset
+
         # Read json response 
         for key, val in awaitDict.items():
-            resp = json.loads(val.content)
+            if not dataset:
+                resp = json.loads(val.content)
+            else:
+                resp = val
             cryptoDataDaysAgo = resp['Data'][0]['open']
             if cryptoDataDaysAgo == 0:
                 continue 
             cryptoDataToday = resp['Data'][days]['close']
-            crypto_code.append(crypto)
+            crypto_code.append(key)
+            amount = cryptosAndAmount[key]
             investment.append(cryptoDataDaysAgo * amount)
             current.append(cryptoDataToday * amount)
         
@@ -90,9 +103,14 @@ class _crypto_api:
 # Scratch space for the api
 if __name__ == "__main__":
     test = _crypto_api()
-    loop = asyncio.get_event_loop()
-    #y = loop.run_until_complete(test.what_if_investment(100, {'BTC':2, 'DBC':100}))
-    
+    #with open("whatif.dat") as f:
+    #    data = json.loads(f.readline().strip())
     #loop = asyncio.get_event_loop()
+    #print(loop.run_until_complete(test.what_if_investment(100, {'BTC':2, 'DBC':100}, data)))
+
+    #loop = asyncio.get_event_loop()
+    #y = loop.run_until_complete(test.what_if_investment(100, {'BTC':2, 'DBC':100}))
+    #print(y)
+    loop = asyncio.get_event_loop()
     x = loop.run_until_complete(test.find_hottest_coldest(10, 5, 'hot'))
-    #print(x)
+    print(x)
