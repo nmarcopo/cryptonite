@@ -9,4 +9,4 @@
 ## Features
 - [x] Display current hottest and coldest N currencies
 - [x] Cyrpto currency investement simulator
-- [ ] User specific crypto currency wallet
+- [x] User specific crypto currency wallet
