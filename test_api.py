@@ -87,6 +87,14 @@ class TestAPIDatabase(unittest.TestCase):
             self.assertEqual(asset_list[1], 30)
         
         ## Test crypto api
+        # Check if hot/cold is working
+        def test_find_hottest_coldest(self):
+            with open('hotcold.dat') as f:
+                data = f.readline().strip()
+            loop = asyncio.get_event_loop()
+            response = loop.run_until_complete(self.crypto_data.find_hottest_coldest(10, 5, 'hot', json.loads(data)))
+            self.assertEqual(response, json.dumps({"mode": "hot", "BCH": "40.97%", "XRP": "16.44%", "XLM": "11.80%", "DASH": "8.67%", "ETH": "7.71%"}))
+
         # Check crypto portofolio investment is working
         def test_what_if_investment(self):
             with open('whatif.dat') as f:
