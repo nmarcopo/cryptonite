@@ -10,8 +10,6 @@ import hashlib
 class TestAPIDatabase(unittest.TestCase):
         """unit tests for crypto API and user database"""
 
-        #@classmethod
-        #def setUpClass(self):
         udb = _user_database()
         crypto_data = _crypto_api()
 
@@ -26,21 +24,26 @@ class TestAPIDatabase(unittest.TestCase):
             for uid, pwd in self.udb.user_pwd.items():
                 user_pwd.append(uid)
                 user_pwd.append(pwd)
-            self.assertEquals(user_pwd[0], 'Andy')
-            self.assertEquals(user_pwd[1], hashlib.sha1('animep'.encode()).hexdigest())
+            self.assertEqual(user_pwd[0], 'Andy')
+            self.assertEqual(user_pwd[1], hashlib.sha1('animep'.encode()).hexdigest())
+            
+            result1 = self.udb.set_user('Andy', 'different')
+            result2 = self.udb.set_user('Luke', 'hello')
+            self.assertEqual(result1, False)
+            self.assertEqual(result2, True)
 
         def test_check_pwd(self):
             self.udb.reset_data()
             self.udb.set_user('Nick', 'BTC')
             output = self.udb.check_pwd('Nick', 'BTC')
-            self.assertEquals(output, True)
+            self.assertEqual(output, True)
 
         def test_change_pwd(self):
             self.udb.reset_data()
             self.udb.set_user('Austin', 'XRP')
             self.udb.change_pwd('Austin', 'XRP', 'DASH')
             new_pwd = self.udb.user_pwd['Austin']
-            self.assertEquals(new_pwd, hashlib.sha1('DASH'.encode()).hexdigest())
+            self.assertEqual(new_pwd, hashlib.sha1('DASH'.encode()).hexdigest())
 
         def test_change_id(self):
             self.udb.reset_data()
@@ -50,26 +53,27 @@ class TestAPIDatabase(unittest.TestCase):
             for uid, pwd in self.udb.user_pwd.items():
                 user_pwd.append(uid)
                 user_pwd.append(pwd)
-            self.assertEquals(user_pwd[0], 'Andy')
-            self.assertEquals(user_pwd[1], hashlib.sha1('USDP'.encode()).hexdigest())
+            self.assertEqual(user_pwd[0], 'Andy')
+            self.assertEqual(user_pwd[1], hashlib.sha1('USDP'.encode()).hexdigest())
 
         def test_delete_user(self):
             self.reset_data()
             self.udb.set_user('Shreya', 'ETH')
             self.udb.delete_user('Shreya', 'ETH')
-            self.assertEquals(self.udb.user_pwd, {})
-            self.assertEquals(self.udb.user_wallet, {})
+            self.assertEqual(self.udb.user_pwd, {})
+            self.assertEqual(self.udb.user_wallet, {})
 
         def test_add_sub_asset(self):
             self.udb.reset_data()
             self.udb.set_user('Austin', 'XRP')
             self.udb.add_sub_asset('Austin', {'BTC':30})
             asset_list = []
-            for coin, amount in self.udb.user_wallet['Austin'].items():
-                asset_list.append(coin)
-                asset_list.append(amount)
-            self.assertEquals(asset_list[0], 'BTC')
-            self.assertEquals(asset_list[1], 30)
+            for item in self.udb.user_wallet['Austin']:
+                for key, value in item.items():
+                    asset_list.append(key)
+                    asset_list.append(value)
+            self.assertEqual(asset_list[0], 'BTC')
+            self.assertEqual(asset_list[1], 30)
 
 if __name__ == "__main__":
     unittest.main()

@@ -10,8 +10,12 @@ class _user_database:
         self.user_wallet = {}
 
     def set_user(self, user, pwd):
-        self.user_pwd[user] = hashlib.sha1(pwd.encode()).hexdigest()
-        self.user_wallet[user] = []
+        if user not in self.user_pwd:
+            self.user_pwd[user] = hashlib.sha1(pwd.encode()).hexdigest()
+            self.user_wallet[user] = []
+            return True
+        else:
+            return False
 
     def check_pwd(self, user, pwd):
         if self.user_pwd[user] == hashlib.sha1(pwd.encode()).hexdigest():
@@ -37,9 +41,14 @@ class _user_database:
 
     def add_sub_asset(self, user, asset_dict):
         for coin, amount in asset_dict.items():
-            for item in self.user_wallet[user]:
-                if coin in item:
-                    item[coin] += amount 
+            if self.user_wallet[user] != []:
+                for item in self.user_wallet[user]:
+                    self.user_wallet.remove(item)
+                    if coin in item:
+                        item[coin] += amount
+                    self.user_wallet[user].append(item)
+            else:
+                self.user_wallet[user].append(asset_dict)
 
     def reset_data(self):
         self.user_pwd.clear()
