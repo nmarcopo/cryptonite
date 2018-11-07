@@ -3,7 +3,7 @@ import requests
 import json
 
 
-# Austin Sura, just him
+# Austin Sura, Nicholas Marcopoli, Chan Hee Song, Sung Hyun Shin
 
 class _crypto_api:
     def __init__(self):
@@ -54,12 +54,13 @@ class _crypto_api:
         investment = []
         current = []
         loop = asyncio.get_event_loop()
+        
         awaitDict = {}
         for crypto, amount in cryptosAndAmount.items():
             crypto_choice_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(crypto, days)
-            r = requests.get(crypto_choice_url)
-            resp = json.loads(r.content)
-           # print(resp)
+            awaitDict[crypto] = await loop.run_in_executor(None, requests.get, crypto_choice_url)
+        for key, val in awaitDict.items():
+            resp = json.loads(val.content)
             cryptoDataDaysAgo = resp['Data'][0]['open']
             if cryptoDataDaysAgo == 0:
                 print("This crypto, {}, didn't exist {} days ago. Not computing with this crypto.".format(crypto, days))
@@ -91,8 +92,9 @@ class _crypto_api:
 
 if __name__ == "__main__":
     test = _crypto_api()
-    #test.what_if_investment(100, {'BTC':2, 'DBC':100})
-    
     loop = asyncio.get_event_loop()
-    x = loop.run_until_complete(test.find_hottest_coldest(10, 5, 'hot'))
-    print(x)
+    print(loop.run_until_complete(test.what_if_investment(100, {'BTC':2, 'DBC':100})))
+    
+    #loop = asyncio.get_event_loop()
+    #x = loop.run_until_complete(test.find_hottest_coldest(10, 5, 'hot'))
+    #print(x)
