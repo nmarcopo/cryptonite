@@ -23,7 +23,11 @@ class _crypto_api:
         respDict = {}
         for key, val in awaitDict.items():
             respDict[key] = await val
-
+        
+        dataDict = {}
+        for key, val in respDict.items():
+            dataDict[key] = json.loads(val.content)
+        print(dataDict)
         for key, val in respDict.items():
             resp = json.loads(val.content)
             cryptoDataDaysAgo = resp['Data'][0]['open']
@@ -59,6 +63,12 @@ class _crypto_api:
         for crypto, amount in cryptosAndAmount.items():
             crypto_choice_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(crypto, days)
             awaitDict[crypto] = await loop.run_in_executor(None, requests.get, crypto_choice_url)
+        
+        dataDict = dict()
+        for key, val in awaitDict.items():
+            dataDict[key] = json.loads(val.content)
+        
+        print(dataDict)
         for key, val in awaitDict.items():
             resp = json.loads(val.content)
             cryptoDataDaysAgo = resp['Data'][0]['open']
@@ -93,8 +103,8 @@ class _crypto_api:
 if __name__ == "__main__":
     test = _crypto_api()
     loop = asyncio.get_event_loop()
-    print(loop.run_until_complete(test.what_if_investment(100, {'BTC':2, 'DBC':100})))
+    #y = loop.run_until_complete(test.what_if_investment(100, {'BTC':2, 'DBC':100}))
     
     #loop = asyncio.get_event_loop()
-    #x = loop.run_until_complete(test.find_hottest_coldest(10, 5, 'hot'))
+    x = loop.run_until_complete(test.find_hottest_coldest(10, 5, 'hot'))
     #print(x)
