@@ -30,7 +30,7 @@ class TestAPIDatabase(unittest.TestCase):
                 user_pwd.append(uid)
                 user_pwd.append(pwd)
             self.assertEqual(user_pwd[0], 'Andy')
-            self.assertEqual(user_pwd[1], hashlib.sha1('animep'.encode()).hexdigest())
+            self.assertEqual(user_pwd[1], hashlib.sha3_512('animep'.encode()).hexdigest())
             
             # Check if overwriting works
             result1 = self.udb.set_user('Andy', 'different')
@@ -51,7 +51,7 @@ class TestAPIDatabase(unittest.TestCase):
             self.udb.set_user('Austin', 'XRP')
             self.udb.change_pwd('Austin', 'XRP', 'DASH')
             new_pwd = self.udb.user_pwd['Austin']
-            self.assertEqual(new_pwd, hashlib.sha1('DASH'.encode()).hexdigest())
+            self.assertEqual(new_pwd, hashlib.sha3_512('DASH'.encode()).hexdigest())
         
         # Check if changing user id is successful
         def test_change_id(self):
@@ -63,7 +63,7 @@ class TestAPIDatabase(unittest.TestCase):
                 user_pwd.append(uid)
                 user_pwd.append(pwd)
             self.assertEqual(user_pwd[0], 'Andy')
-            self.assertEqual(user_pwd[1], hashlib.sha1('USDP'.encode()).hexdigest())
+            self.assertEqual(user_pwd[1], hashlib.sha3_512('USDP'.encode()).hexdigest())
         
         # Check if deleting user is successful
         def test_delete_user(self):
