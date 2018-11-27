@@ -14,12 +14,13 @@ class UserController:
         if uid in self.udb.user_wallet:
             output = {'result':'success', 'id': uid}
             coin_list = []
-            for coin, amount in self.udb.user_wallet[uid].items():
-                coin = {}
-                coin['name'] = coin
-                coin['amount'] = amount
-                coin_list.append(coin)
-            output['wallet'] = coin_list
+            if self.udb.user_wallet[uid]:
+                for coin, amount in self.udb.user_wallet[uid].items():
+                    coin = {}
+                    coin['name'] = coin
+                    coin['amount'] = amount
+                    coin_list.append(coin)
+                output['wallet'] = coin_list
         else:
             output = {'result':'error'}
         return json.dumps(output)
@@ -52,26 +53,26 @@ class UserController:
         return json.dumps(output)
     
     # Make new id
-    def POST(self):
+    def POST_ID(self):
         output = {}
-        payload = cherrpy.request.body.read()
+        payload = cherrypy.request.body.read()
         new_id = json.loads(payload)
         uid = new_id['user']
         pwd = new_id['pwd']
-        if set_user(uid, pwd):
+        if self.udb.set_user(uid, pwd):
             output['result'] = 'success'
         else:
             output['result'] = 'error'
         return json.dumps(output)
     
     # Change password
-    def PUT(self, uid):
+    def PUT_PWD(self, uid):
         output = {}
         payload = cherrypy.request.body.read()
         change_pwd = json.loads(payload)
         curr_pwd = change_pwd['pwd']
         new_pwd = change_pwd['new_pwd']
-        if change_pwd(uid, curr_pwd, new_pwd):
+        if self.udb.change_pwd(uid, curr_pwd, new_pwd):
             output['result'] = 'success'
         else:
             output['result'] = 'error'
@@ -83,17 +84,17 @@ class UserController:
         payload = cherrypy.request.body.read()
         new_info = json.loads(payload)
         asset_dict = new_info['asset']
-        add_sub_asset(uid, asset_dict)
+        self.udb.add_sub_asset(uid, asset_dict)
         output['result'] = 'success'
         return json.dumps(output)
 
     # Delete user
-    def DELETE(self, uid):
+    def DELETE_ID(self, uid):
         output = {}
         payload = cherrypy.request.body.read()
         pwd_info = json.loads(payload)
         pwd = pwd_info['pwd']
-        if delete_user(uid, pwd):
+        if self.udb.delete_user(uid, pwd):
             output['result'] = 'success'
         else:
             output['result'] = 'error'

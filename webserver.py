@@ -9,6 +9,15 @@ from _crypto_api import _crypto_api
 from users import UserController
 from crypto import CryptoController
 
+class optionsController:
+    def OPTIONS(self, *args, **kargs):
+        return ""
+
+def CORS():
+    cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+    cherrypy.response.headers["Access-Control-Allow-Methods"] = "GET, PUT, POST, DELETE, OPTIONS"
+    cherrypy.response.headers["Access-Control-Allow-Credentials"] = "*"
+
 def start_service():
     # Create dispatcher and connect controller
     dispatcher = cherrypy.dispatch.RoutesDispatcher()
@@ -24,10 +33,10 @@ def start_service():
                         action = 'DELETE', conditions=dict(method=['DELETE'])
                 )
     dispatcher.connect('user_check_pwd', '/users/', controller=uController,
-                        action = 'PUT', conditions=dict(method=['PUT'])
+                        action = 'PUT_PWD', conditions=dict(method=['PUT'])
                 )
     dispatcher.connect('make_new_id', '/users/', controller=uController,
-                        action = 'POST', conditions=dict(method=['POST'])
+                        action = 'POST_ID', conditions=dict(method=['POST'])
                 )
     dispatcher.connect('change_pwd', '/users/:uid', controller=uController,
                         action = 'PUT', conditions=dict(method=['PUT'])
@@ -36,7 +45,7 @@ def start_service():
                         action = 'POST', conditions=dict(method=['POST'])
                 )
     dispatcher.connect('delete_user', '/users/:uid', controller=uController,
-                        action = 'DELETE', conditions=dict(method=['DELETE'])
+                        action = 'DELETE_ID', conditions=dict(method=['DELETE'])
                 )
 
     dispatcher.connect('get_hottest', '/crypto/', controller=cController,
@@ -45,6 +54,19 @@ def start_service():
     dispatcher.connect('what_if', '/crypto/:days', controller=cController,
                         action = 'PUT', conditions=dict(method=['PUT'])
                 )
+    # Options requests for dispatcher
+    dispatcher.connect('user_options', '/users/:uid', controller=optionsController,
+                        action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
+                )
+    dispatcher.connect('users_all', '/users/', controller=optionsController,
+                        action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
+                )
+    dispatcher.connect('crypto_hot_cold', '/crypto/', controller=optionsController,
+                        action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
+                )
+    dispatcher.connect('crypto_whatif', '/crypto/:days', controller=optionsController,
+                        action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
+                )
     
     # Configuration for the server
     conf = { 
@@ -52,7 +74,9 @@ def start_service():
                     'server.socket_host': 'student04.cse.nd.edu',
                     'server.socket_port': 52109, 
                 },
-            '/' : { 'request.dispatch': dispatcher } 
+            '/' : { 'request.dispatch': dispatcher,
+                    'tools.CORS.on': True,
+                  } 
            }
 
     # Update config
@@ -61,4 +85,5 @@ def start_service():
     cherrypy.quickstart(app)
 
 if __name__ == '__main__':
+    cherrypy.tools.CORS = cherrypy.Tool('before_finalize', CORS)
     start_service()
