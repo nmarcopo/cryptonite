@@ -43,7 +43,7 @@ class UserController:
         output = {}
         payload = cherrypy.request.body.read()
         user_info = json.loads(payload)
-        uid = user_info['uid']
+        uid = user_info['user']
         pwd = user_info['pwd']
         if self.udb.check_pwd(uid, pwd):
             output = {'result':'success'}
