@@ -6,7 +6,7 @@ import json, cherrypy, asyncio
 
 class CryptoController:
     def __init__(self, _crypto_api):
-        self.crypto = _crypto.api
+        self.crypto = _crypto_api
     
     # Get top hottest or coldest crypto
     def GET_WALLET(self):
