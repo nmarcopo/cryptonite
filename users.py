@@ -11,7 +11,6 @@ class UserController:
     # Get user wallet info
     def GET_WALLET(self, uid):
         output = {}
-        uid = int(uid)
         if uid in self.udb.user_wallet:
             output = {'result':'success', 'id': uid}
             coin_list = []
