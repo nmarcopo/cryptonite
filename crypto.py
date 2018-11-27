@@ -9,7 +9,7 @@ class CryptoController:
         self.crypto = _crypto_api
     
     # Get top hottest or coldest crypto
-    def GET_WALLET(self):
+    def PUT(self):
         payload = cherrypy.reqeust.body.read()
         data = json.loads(payload)
         temp = data['temp']
@@ -21,7 +21,7 @@ class CryptoController:
         return json.dumps(response)
     
     # Do what if investment
-    def DELETE(self, days):
+    def PUT(self, days):
         output = {}
         payload = cherrypy.request.body.read()
         data = json.loads(payload)

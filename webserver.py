@@ -40,10 +40,10 @@ def start_service():
                 )
 
     dispatcher.connect('get_hottest', '/crypto/', controller=cController,
-                        action = 'GET', conditions=dict(method=['GET'])
+                        action = 'PUT', conditions=dict(method=['PUT'])
                 )
     dispatcher.connect('what_if', '/crypto/:days', controller=cController,
-                        action = 'GET', conditions=dict(method=['GET'])
+                        action = 'PUT', conditions=dict(method=['PUT'])
                 )
     
     # Configuration for the server
