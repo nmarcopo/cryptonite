@@ -38,10 +38,10 @@ The output will tell you if the API passed the tests.
 
 ## For November 28: Web Server Due
 ### RESTful JSON Specification
-| Resources     | GET                                 | PUT                 | POST             | DELETE          |
-|---------------|-------------------------------------|---------------------|------------------|-----------------|
-| /users/       |                                     | <ul><li> - [x] Check password</li></ul> | <ul><li>[ ] Make new id</li></ul>  | <ul><li>[x] Change ID</li></ul>   |
-| /users/:uid   | <ul><li>[x] Get user wallet info</li></ul>            | <ul><li>- [ ] Change password</li></ul> | <ul><li>[ ] Add new data</li></ul> | <ul><li>[ ] Delete user</li></ul> |
-| /crypto/      | <ul><li>[ ] find hottest and coldest crypto</li></ul> |                     |                  |                 |
-| /crypto/:days | <ul><li>[ ] what if investment simulator</li></ul>    |                     |                  |                 |
+| Resources     | GET                             | PUT             | POST         | DELETE      |
+|---------------|---------------------------------|-----------------|--------------|-------------|
+| /users/       |                                 | Check password  | Make new id  | Change ID   |
+| /users/:uid   | Get user wallet info            | Change password | Add new data | Delete user |
+| /crypto/      | find hottest and coldest crypto |                 |              |             |
+| /crypto/:days | what if investment simulator    |                 |              |             |
 
