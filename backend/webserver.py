@@ -31,8 +31,8 @@ def start_service():
     dispatcher.connect('user_get_wallet', '/users/:uid', controller=uController,
                         action = 'GET_WALLET', conditions=dict(method=['GET'])
                 )
-    dispatcher.connect('user_changeID', '/users/', controller=uController,
-                        action = 'DELETE', conditions=dict(method=['DELETE'])
+    dispatcher.connect('user_changeID', '/users/change/', controller=uController,
+                        action = 'PUT_CHANGE', conditions=dict(method=['PUT'])
                 )
     dispatcher.connect('user_check_pwd', '/users/', controller=uController,
                         action = 'PUT_PWD', conditions=dict(method=['PUT'])
@@ -46,8 +46,8 @@ def start_service():
     dispatcher.connect('add_asset', '/users/:uid', controller=uController,
                         action = 'POST', conditions=dict(method=['POST'])
                 )
-    dispatcher.connect('delete_user', '/users/:uid', controller=uController,
-                        action = 'DELETE_ID', conditions=dict(method=['DELETE'])
+    dispatcher.connect('delete_user', '/users/change/:uid', controller=uController,
+                        action = 'PUT_DELETE', conditions=dict(method=['PUT'])
                 )
     # Crypto api controller
     dispatcher.connect('get_hottest', '/crypto/', controller=cController,
@@ -83,7 +83,7 @@ def start_service():
     conf = { 
             'global' : {
                     'server.socket_host': 'student04.cse.nd.edu',
-                    'server.socket_port': 52107, 
+                    'server.socket_port': 52109, 
                 },
             '/' : { 'request.dispatch': dispatcher,
                     'tools.CORS.on': True,
