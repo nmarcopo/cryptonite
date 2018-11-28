@@ -38,6 +38,7 @@ The output will tell you if the API passed the tests.
 
 ## For November 28: Web Server Due
 ### RESTful JSON Specification
+<<<<<<< HEAD
    
 Reminder of our RESTful table.
 | Resources     | GET                           | PUT                             | POST         | DELETE      |
@@ -50,4 +51,15 @@ Reminder of our RESTful table.
  
 Our Webservice is run from the webserver.py program. It is a cherrypy server that you run with the command "python3.6 webserver.py". We are using the port 52019  of student04.cse.nd.edu to host our server. Our webserver currently has functions to call all of the commands of our APIs. The webserver can register a user and password, and then have a wallet that corresponds to that user. We are currently working a webclient using bootstrap that supports the login process, but we are still working to integrate some of the main API functions. We created a test function that shows the correct implementation of the post/put/get commands. This test script can be run by starting the server and then running the command python3.6 test_server.py.
 
+=======
+| Resources          | GET                           | PUT                             | POST         | DELETE |
+|--------------------|-------------------------------|---------------------------------|--------------|--------|
+| /users/            |                               | Check password                  | Make new id  |        |
+| /users/:uid        | Get user wallet info          | Change password                 | Add new data |        |
+| /users/change/     |                               | Change ID                       |              |        |
+| /users/change/:uid |                               | Delete user                     |              |        |
+| /crypto/           |                               | find hottest and coldest crypto |              |        |
+| /crypto/:days      |                               | what if investment simulator    |              |        |
+| /reset/            | Reset user db (test purposes) |                                 |              |        |
+>>>>>>> 1e91bad2ca75b5989cc5bba5d6d1cce7573ffeda
 

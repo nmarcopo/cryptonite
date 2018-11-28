@@ -20,16 +20,17 @@ class _user_database:
     
     # Check if password matches of the given user
     def check_pwd(self, user, pwd):
-        if self.user_pwd[user] == hashlib.sha3_512(pwd.encode()).hexdigest():
-            return True
-        else:
-            return False
+        if user in self.user_pwd:
+            if self.user_pwd[user] == hashlib.sha3_512(pwd.encode()).hexdigest():
+                return True
+        return False
     
     # Change password of the user
     def change_pwd(self, user, curr_pwd, new_pwd):
-        if self.user_pwd[user] == hashlib.sha3_512(curr_pwd.encode()).hexdigest():
-            self.user_pwd[user] = hashlib.sha3_512(new_pwd.encode()).hexdigest()
-            return True
+        if user in self.user_pwd:
+            if self.user_pwd[user] == hashlib.sha3_512(curr_pwd.encode()).hexdigest():
+                self.user_pwd[user] = hashlib.sha3_512(new_pwd.encode()).hexdigest()
+                return True
         return False
     
     # Change id of the user
@@ -45,9 +46,9 @@ class _user_database:
         if user in self.user_pwd:
             if self.user_pwd[user] == hashlib.sha3_512(pwd.encode()).hexdigest():
                 del self.user_pwd[user]
-        if user in self.user_wallet:
-            del self.user_wallet[user]
-            return True
+                if user in self.user_wallet:
+                    del self.user_wallet[user]
+                return True
         return False
     
     # Manipulate user wallet
@@ -55,8 +56,8 @@ class _user_database:
         if not self.user_wallet[user]:
             self.user_wallet[user].append(asset_dict)
         else:
-            tmp = { k: self.user_wallet[user][0].get(k, 0) + asset_dict.get(k, 0) for k in set(self.user_wallet[user][0]) | set(asset_dict) }
-            self.user_wallet[user][0] = tmp  
+            merged_dict = {k: self.user_wallet[user][0].get(k, 0) + asset_dict.get(k, 0) for k in set(self.user_wallet[user][0]) | set(asset_dict)}
+            self.user_wallet[user][0] = merged_dict 
     
     # Clear database
     def reset_data(self):

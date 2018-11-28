@@ -6,7 +6,16 @@ $(function () {
     $("#navBarInsert").load("res/nav.html", function () {
         // Add active li to navbar
         jQuery("#" + pageName).addClass("active");
-        // you can hide top bar elements if the user isn't signed in.
-        //jQuery("#home").addClass("d-none");
+        // hide top bar elements if the user isn't signed in.
+        if (sessionStorage.getItem("cryptoniteLogIn") != "true") {
+            jQuery("#home").addClass("d-none");
+            jQuery("#friends").addClass("d-none");
+            jQuery("#about").addClass("d-none");
+            jQuery("#signOut").addClass("d-none");
+        }else{
+            // hide sign up and login buttons if user is signed in
+            jQuery("#signUp").addClass("d-none");
+            jQuery("#logIn").addClass("d-none");
+        }
     });
 });

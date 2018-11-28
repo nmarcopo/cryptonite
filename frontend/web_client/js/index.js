@@ -1,5 +1,8 @@
 // Auto run when index.html Welcome page is loaded
 $(function () {
+    if(sessionStorage.getItem("cryptoniteLogIn") == "true"){
+        window.location.replace('home.html');
+    }
     $("#modalInsert").load("res/modalSignUp.html", function () {
         document.getElementById("signUpSubmitButton").addEventListener("click", signUpSubmit);
         document.getElementById("logInSubmitButton").addEventListener("click", logInSubmit);
@@ -46,6 +49,7 @@ function signUpSubmit() {
                 uidNode.setAttribute("readonly", '""');
                 passNode.setAttribute("readonly", '""');
                 passConfNode.setAttribute("readonly", '""');
+
                 createNotification("success", loginContainer, "Well Done! You successfully created an account. Please close this window and log in.");
             } else {
                 // fails when there is already an existing user
@@ -97,6 +101,11 @@ function logInSubmit() {
                 uidNode.setAttribute("readonly", '""');
                 passNode.setAttribute("readonly", '""');
                 createNotification("success", loginContainer, "Well Done! You successfully logged in.");
+                sessionStorage.setItem("cryptoniteLogIn", "true");
+                setTimeout(() => {
+                    window.location.replace('home.html');
+                }, 1500);
+
             } else {
                 // fails when there is already an existing user
                 console.log('failure');
