@@ -48,5 +48,25 @@ The output will tell you if the API passed the tests.
 | /crypto/:days      |                               | what if investment simulator    |              |        |
 | /reset/            | Reset user db (test purposes) |                                 |              |        |
 
+- PUT to /users/
+Returns success if id exists and pwd is correct, else error
+- POST to /users/
+Returns success if id and pwd is right, else error
+- GET to /user/:uid
+If user has wallet, return success with json array of cryptos and amount. Else returns error
+- PUT to /users/:uid
+Returns success if id and pwd is right, else error
+- POST to /users/:uid
+Returns success if id and pwd is correct, else error
+- PUT to /users/change/
+Returns success if id exists, old_id and pwd is correct, else error
+- PUT to users/change/:uid
+Returns success if id exists and pwd matches, else error
+- PUT to /crypto/
+Returns success and top crypto data if fetching crypto api works, else returns error
+- PUT to /crypto/:days
+Returns success and investment simulation data if fetching crypto api works, else returns error
+
+
 ### How to run/test this server:
 Our Webservice is run from the webserver.py program. It is a cherrypy server that you run with the command `python3.6 webserver.py`, **WHILE** in the backend folder. We are using the port 52019  of student04.cse.nd.edu to host our server. Our webserver currently has functions to call all of the commands of our APIs. The webserver can register a user and password, and then have a wallet that corresponds to that user. We are currently working a webclient using bootstrap that supports the login process, but we are still working to integrate some of the main API functions. We created a test function that shows the correct implementation of the post/put/get commands. This test script can be run by starting the server and then running the command `python3.6 test_ws.py` also **WHILE** in the backend folder.
