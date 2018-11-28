@@ -2,7 +2,7 @@
 # User database
 # Luke Song, Nick Marcopoli, Andy Shin, Austin Sura
 
-import hashlib
+import hashlib, collections
 
 class _user_database:
     def __init__(self):
@@ -52,15 +52,11 @@ class _user_database:
     
     # Manipulate user wallet
     def add_sub_asset(self, user, asset_dict):
-        for coin, amount in asset_dict.items():
-            if self.user_wallet[user] != []:
-                for item in self.user_wallet[user]:
-                    self.user_wallet[user].remove(item)
-                    if coin in item:
-                        item[coin] += amount
-                    self.user_wallet[user].append(item)
-            else:
-                self.user_wallet[user].append(asset_dict)
+        if not self.user_wallet[user]:
+            self.user_wallet[user].append(asset_dict)
+        else:
+            tmp = { k: self.user_wallet[user][0].get(k, 0) + asset_dict.get(k, 0) for k in set(self.user_wallet[user][0]) | set(asset_dict) }
+            self.user_wallet[user][0] = tmp  
     
     # Clear database
     def reset_data(self):
