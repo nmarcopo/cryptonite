@@ -8,6 +8,7 @@ from _user_database import _user_database
 from _crypto_api import _crypto_api
 from users import UserController
 from crypto import CryptoController
+from reset import ResetController
 
 class optionsController:
     def OPTIONS(self, *args, **kargs):
@@ -25,6 +26,7 @@ def start_service():
     crypto = _crypto_api
     uController = UserController(udb)
     cController = CryptoController(crypto)
+    rController = ResetController(udb)
     # User db controller
     dispatcher.connect('user_get_wallet', '/users/:uid', controller=uController,
                         action = 'GET_WALLET', conditions=dict(method=['GET'])
@@ -47,13 +49,18 @@ def start_service():
     dispatcher.connect('delete_user', '/users/:uid', controller=uController,
                         action = 'DELETE_ID', conditions=dict(method=['DELETE'])
                 )
-
+    # Crypto api controller
     dispatcher.connect('get_hottest', '/crypto/', controller=cController,
                         action = 'PUT', conditions=dict(method=['PUT'])
                 )
     dispatcher.connect('what_if', '/crypto/:days', controller=cController,
                         action = 'PUT', conditions=dict(method=['PUT'])
                 )
+    # Reset controller
+    dispatcher.connect('reset', '/reset/', controller=rController,
+                        action = 'GET', conditions=dict(method=['GET'])
+                )
+
     # Options requests for dispatcher
     dispatcher.connect('user_options', '/users/:uid', controller=optionsController,
                         action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
@@ -67,6 +74,10 @@ def start_service():
     dispatcher.connect('crypto_whatif', '/crypto/:days', controller=optionsController,
                         action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                 )
+    dispatcher.connect('user_reset', '/reset/', controller=optionsController,
+                        action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
+                )
+
     
     # Configuration for the server
     conf = { 
