@@ -17,7 +17,7 @@ class UserController:
             if self.udb.user_wallet[uid]:
                 for item in self.udb.user_wallet[uid]:
                     for coin, amount in item.items():
-					    coin = {}
+                        coin = {}
                         coin['name'] = coin
                         coin['amount'] = amount
                         coin_list.append(coin)
