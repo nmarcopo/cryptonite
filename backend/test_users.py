@@ -82,8 +82,8 @@ class TestMovies(unittest.TestCase):
 		w = {}
 		assetdict={}
 		assetdict['BTC'] = 6
-		assetdict['ETH']=1000
-		assetdict['LTC']=48349
+		assetdict['ETH'] = 1000
+		assetdict['LTC'] = 48349
 
 		w['asset']=assetdict
 		URL = 'Andy'
