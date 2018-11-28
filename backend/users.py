@@ -23,13 +23,14 @@ class UserController:
         return json.dumps(output)
     
     # Change user id
-    def DELETE(self):
+    def PUT_CHANGE(self):
         output = {}
         payload = cherrypy.request.body.read()
         change_id = json.loads(payload)
         user_ID = change_id['uid']
-        newID = change_id['newID']
         pwd = change_id['pwd']
+        newID = change_id['newID']
+
         if self.udb.change_id(user_ID, newID, pwd):
             output = {'result':'success', 'new_id':newID}
         else:
@@ -86,7 +87,7 @@ class UserController:
         return json.dumps(output)
 
     # Delete user
-    def DELETE_ID(self, uid):
+    def PUT_DELETE(self, uid):
         output = {}
         payload = cherrypy.request.body.read()
         pwd_info = json.loads(payload)
