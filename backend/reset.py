@@ -9,7 +9,6 @@ class ResetController:
         self.udb = userdatabase
         self.crypto = crypto_api
 	
-    # TODO should be a put
     def GET(self):
-        self.udb.reset_data()
-        return json.dumps({'result':'success'}) 
+		self.udb.reset_data()
+		return json.dumps({'result':'success'}) 
