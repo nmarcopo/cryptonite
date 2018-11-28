@@ -70,3 +70,8 @@ Returns success and investment simulation data if fetching crypto api works, els
 
 ### How to run/test this server:
 Our Webservice is run from the webserver.py program. It is a cherrypy server that you run with the command `python3.6 webserver.py`, **WHILE** in the backend folder. We are using the port 52019  of student04.cse.nd.edu to host our server. Our webserver currently has functions to call all of the commands of our APIs. The webserver can register a user and password, and then have a wallet that corresponds to that user. We are currently working a webclient using bootstrap that supports the login process, but we are still working to integrate some of the main API functions. We created a test function that shows the correct implementation of the post/put/get commands. This test script can be run by starting the server and then running the command `python3.6 test_ws.py` also **WHILE** in the backend folder.
+Explicit steps:  
+1. Be on student04.cse.nd.edu
+2. Be in the "backend" directory of our submission  
+3. run the command `python3.6 webserver.py`     
+4. To test: Run the command `python3.6 test_ws.py`  
