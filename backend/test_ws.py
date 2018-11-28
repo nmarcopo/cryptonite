@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# Luke Song, Nick Marcopoli, Austin Sura, Andy Shin
+
 import unittest
 import requests
 import json
