@@ -44,4 +44,5 @@ The output will tell you if the API passed the tests.
 | /users/:uid   | Get user wallet info | Change password                 | Add new data | Delete user |
 | /crypto/      |                      | find hottest and coldest crypto |              |             |
 | /crypto/:days |                      | what if investment simulator    |              |             |
+| /reset/       |                      | Reset user db (test purposes)   |              |             |
 
