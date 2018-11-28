@@ -41,7 +41,7 @@ class UserController:
         return json.dumps(output)
     
     # Check pwd
-    def PUT(self):
+    def PUT_PWD(self):
         output = {}
         payload = cherrypy.request.body.read()
         user_info = json.loads(payload)
@@ -67,7 +67,7 @@ class UserController:
         return json.dumps(output)
     
     # Change password
-    def PUT_PWD(self, uid):
+    def PUT(self, uid):
         output = {}
         payload = cherrypy.request.body.read()
         change_pwd = json.loads(payload)
