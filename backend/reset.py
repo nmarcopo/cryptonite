@@ -8,6 +8,7 @@ class ResetController:
     def __init__(self, userdatabase):
         self.udb = userdatabase
 	
-    def GET(self):
+    # TODO should be a put
+	def GET(self):
         self.udb.reset_data()
         return json.dumps({'result':'success'}) 

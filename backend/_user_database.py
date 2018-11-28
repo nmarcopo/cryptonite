@@ -55,7 +55,7 @@ class _user_database:
         for coin, amount in asset_dict.items():
             if self.user_wallet[user] != []:
                 for item in self.user_wallet[user]:
-                    self.user_wallet.remove(item)
+                    self.user_wallet[user].remove(item)
                     if coin in item:
                         item[coin] += amount
                     self.user_wallet[user].append(item)
