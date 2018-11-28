@@ -21,31 +21,10 @@ class TestMovies(unittest.TestCase):
 
 	def test_users_wallet_get(self):
 		self.reset_data()
-		u = {}
-		u['user'] = 'Andy'
-		u['pwd'] = 'animep'
-
-		r = requests.post(self.USERS_URL, data = json.dumps(u))
+		r = requests.get(self.USERS_URL + 'aaaa') 
 		self.assertTrue(self.is_json(r.content.decode()))
 		resp = json.loads(r.content.decode())
-		self.assertEqual(resp['result'],'success')
-		w = {}
-		assetdict={}
-		assetdict['BTC'] = 6
-		assetdict['ETH']=1000
-		assetdict['LTC']=48349
-
-		w['asset']=assetdict
-		URL = 'Andy'
-		r = requests.post(self.USERS_URL + URL, data = json.dumps(w))
-		self.assertTrue(self.is_json(r.content.decode()))
-		resp = json.loads(r.content.decode())
-		self.assertEqual(resp['result'],'success')
-
-		r = requests.get(self.USERS_URL + URL) 
-		self.assertTrue(self.is_json(r.content.decode()))
-		resp = json.loads(r.content.decode())
-		self.assertEqual(resp['result'],'success')
+		self.assertEqual(resp['result'],'error')
 
 	def test_users_put(self):
 		self.assertEqual('1','1')
@@ -114,7 +93,10 @@ class TestMovies(unittest.TestCase):
 		self.assertEqual(resp['result'],'success')
 		
 		# TODO GET WALLET
-		#r = requests.get(self,USERS_URL + URL
+		r = requests.get(self.USERS_URL + URL) 
+		self.assertTrue(self.is_json(r.content.decode()))
+		resp = json.loads(r.content.decode())
+		self.assertEqual(resp['result'],'success')
 
 	def test_movies_delete(self):
 		self.assertEqual('1','1')

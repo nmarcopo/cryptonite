@@ -24,6 +24,7 @@ class UserController:
                 output['wallet'] = coin_list
         else:
             output = {'result':'error'}
+        print(output)
         return json.dumps(output)
     
     # Change user id
