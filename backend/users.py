@@ -15,11 +15,12 @@ class UserController:
             output = {'result':'success', 'id': uid}
             coin_list = []
             if self.udb.user_wallet[uid]:
-                for coin, amount in self.udb.user_wallet[uid].items():
-                    coin = {}
-                    coin['name'] = coin
-                    coin['amount'] = amount
-                    coin_list.append(coin)
+                for item in self.udb.user_wallet[uid]:
+                    for coin, amount in item.items():
+						coin = {}
+                    	coin['name'] = coin
+                    	coin['amount'] = amount
+                    	coin_list.append(coin)
                 output['wallet'] = coin_list
         else:
             output = {'result':'error'}
