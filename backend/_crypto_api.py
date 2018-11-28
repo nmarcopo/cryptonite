@@ -15,7 +15,7 @@ class _crypto_api:
         # calculated by doing open on first day to close on last day
         loop = asyncio.get_event_loop()
         respDict = {}
-        if dataset is None:
+        if dataset == None:
             # call the api from online if no static dataset provided
             for item in self.top15List:
                 crypto_hottest_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(item, days)
