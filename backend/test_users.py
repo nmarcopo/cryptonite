@@ -97,6 +97,9 @@ class TestMovies(unittest.TestCase):
 		self.assertTrue(self.is_json(r.content.decode()))
 		resp = json.loads(r.content.decode())
 		self.assertEqual(resp['result'],'success')
+		l = []
+		l.append(assetdict)
+		self.assertEqual(resp['wallet'],l)
 
 	def test_movies_delete(self):
 		self.assertEqual('1','1')
