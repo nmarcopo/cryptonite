@@ -82,8 +82,10 @@ class UserController:
         payload = cherrypy.request.body.read()
         new_info = json.loads(payload)
         asset_dict = new_info['asset']
-        self.udb.add_sub_asset(uid, asset_dict)
-        output['result'] = 'success'
+        if self.udb.add_sub_asset(uid, asset_dict):
+            output['result'] = 'success'
+        else:
+            output['result'] = 'error'
         return json.dumps(output)
 
     # Delete user

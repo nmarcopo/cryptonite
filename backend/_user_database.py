@@ -53,11 +53,14 @@ class _user_database:
     
     # Manipulate user wallet
     def add_sub_asset(self, user, asset_dict):
-        if not self.user_wallet[user]:
-            self.user_wallet[user].append(asset_dict)
-        else:
-            merged_dict = {k: self.user_wallet[user][0].get(k, 0) + asset_dict.get(k, 0) for k in set(self.user_wallet[user][0]) | set(asset_dict)}
-            self.user_wallet[user][0] = merged_dict 
+        if user in self.user_wallet:
+            if not self.user_wallet[user]:
+                self.user_wallet[user].append(asset_dict)
+            else:
+                merged_dict = {k: self.user_wallet[user][0].get(k, 0) + asset_dict.get(k, 0) for k in set(self.user_wallet[user][0]) | set(asset_dict)}
+                self.user_wallet[user][0] = merged_dict
+            return True
+        return False
     
     # Clear database
     def reset_data(self):
