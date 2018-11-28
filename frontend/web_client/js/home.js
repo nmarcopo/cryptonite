@@ -7,7 +7,9 @@ $(document).ready(function () {
         }
         $("#signOutButton").click(function () {
             sessionStorage.setItem("cryptoniteLogIn", "false");
-            console.log("signed out");
         });
+    });
+    $("#settingsInsert").load("res/modalSettings.html", function () {
+        console.log("settings loaded");
     });
 })

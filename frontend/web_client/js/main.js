@@ -12,6 +12,7 @@ $(function () {
             jQuery("#friends").addClass("d-none");
             jQuery("#about").addClass("d-none");
             jQuery("#signOut").addClass("d-none");
+            jQuery("#settings").addClass("d-none");
         }else{
             // hide sign up and login buttons if user is signed in
             jQuery("#signUp").addClass("d-none");
