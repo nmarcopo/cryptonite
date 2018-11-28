@@ -17,7 +17,7 @@
 
 ## For November 7: OO API Due
 ### How to use this API:
-Our API involves two functions that call an external cryptocurrency API and several other functions that interact with a local database of users and their cryptocurrency investments. Our functions are as follows:  
+Our API involves two functions that call an [external cryptocurrency API](https://min-api.cryptocompare.com) and several other functions that interact with a local database of users and their cryptocurrency investments. Our functions are as follows:  
 #### \_crypto\_api
 - find\_hottest\_coldest(days, topN, mode): Given an amount of days, this function will find the "hottest" or "coldest" topN cryptocurrencies, depending on the user's input. The "hottest" cryptocurrencies are those that have seen the greatest growth over a period of user specified days (from user specified previous days to the current day), and the "coldest" cryptocurrencies are those which have seen the greatest loss over that period. This information could be important to determining which cryptocurrency to buy.
 - what\_if\_investment(days, cryptosAndAmount): Given an amount of days and a dictionary of cryptocurrencies and amounts of cryptocurrencies, this function will detect how much money in US Dollars a user would have made (or lost) if they invested in those currencies at that date.
