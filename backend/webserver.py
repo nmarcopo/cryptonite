@@ -3,7 +3,7 @@
 # final project
 # webserver.py
 
-import cherrypy
+import cherrypy, asyncio
 from _user_database import _user_database
 from _crypto_api import _crypto_api
 from users import UserController
@@ -23,10 +23,10 @@ def start_service():
     # Create dispatcher and connect controller
     dispatcher = cherrypy.dispatch.RoutesDispatcher()
     udb = _user_database()
-    crypto = _crypto_api
+    crypto = _crypto_api()
     uController = UserController(udb)
     cController = CryptoController(crypto)
-    rController = ResetController(udb)
+    rController = ResetController(udb, crypto)
     # User db controller
     dispatcher.connect('user_get_wallet', '/users/:uid', controller=uController,
                         action = 'GET_WALLET', conditions=dict(method=['GET'])
@@ -51,7 +51,7 @@ def start_service():
                 )
     # Crypto api controller
     dispatcher.connect('get_hottest', '/crypto/', controller=cController,
-                        action = 'PUT', conditions=dict(method=['PUT'])
+                        action = 'PUT_TOPN', conditions=dict(method=['PUT'])
                 )
     dispatcher.connect('what_if', '/crypto/:days', controller=cController,
                         action = 'PUT', conditions=dict(method=['PUT'])
@@ -83,7 +83,7 @@ def start_service():
     conf = { 
             'global' : {
                     'server.socket_host': 'student04.cse.nd.edu',
-                    'server.socket_port': 52109, 
+                    'server.socket_port': 52107, 
                 },
             '/' : { 'request.dispatch': dispatcher,
                     'tools.CORS.on': True,
@@ -98,3 +98,5 @@ def start_service():
 if __name__ == '__main__':
     cherrypy.tools.CORS = cherrypy.Tool('before_finalize', CORS)
     start_service()
+    #loop = asyncio.get_event_loop()
+    #asyncio.set_event_loop(asyncio.new_event_loop())
