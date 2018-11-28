@@ -8,7 +8,7 @@ class ResetController:
     def __init__(self, userdatabase, crypto_api):
         self.udb = userdatabase
         self.crypto = crypto_api
-	
+
     def GET(self):
-		self.udb.reset_data()
-		return json.dumps({'result':'success'}) 
+        self.udb.reset_data()
+        return json.dumps({'result':'success'}) 
