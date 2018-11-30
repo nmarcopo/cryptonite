@@ -11,7 +11,7 @@
 
 ## Features
 - [x] Display current hottest and coldest N currencies
-- [x] Cyrpto currency investement simulator
+- [x] Crypto currency investement simulator
 - [x] User specific crypto currency wallet
 - [ ] Crypto currency investment recommender
 
