@@ -25,21 +25,25 @@
         <div class="jumbotron">
             <h1 class="display-3">Home</h1>
 			<div class="d-flex justify-content-center">
-				<div class="card border-primary mb-3" style="max-width: 40rem;">
+				<div class="w-75 p-3 card border-primary mb-3">
   					<div class="card-header">Wallet</div>
   					<div class="card-body">
   						<div class="form-group">
-  							<label class="control-label">Input addons</label>
   							<div class="form-group">
     							<div class="input-group mb-3">
-      								<div class="input-group-prepend">
+      								<li class="w-25 p-3 list-group-item d-flex justify-content-between align-items-center">
+    									Crypto
+  									</li>	
+									<div class="input-group-prepend">
         								<span class="input-group-text">$</span>
       								</div>
-      								<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-      								<div class="input-group-append">
-        								<span class="input-group-text">.00</span>
-      								</div>
-    							</div>
+      								<li class="w-25 p-3 list-group-item d-flex justify-content-between align-items-center">
+    									Amount
+  									</li>	
+    								<div class="input-group-append">
+    									<button class="btn btn-warning" type="button" id="button-addon2">remove</button>
+  									</div>	
+								</div>
   							</div>
 						</div>	
 					</div>
