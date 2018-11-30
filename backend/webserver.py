@@ -22,7 +22,8 @@ def CORS():
 def start_service():
     # Create dispatcher and connect controller
     dispatcher = cherrypy.dispatch.RoutesDispatcher()
-    udb = _user_database()
+    # database files
+    udb = _user_database("user_pwd.db", "user_wallet.db")
     crypto = _crypto_api()
     uController = UserController(udb)
     cController = CryptoController(crypto)
@@ -68,6 +69,13 @@ def start_service():
     dispatcher.connect('users_all', '/users/', controller=optionsController,
                         action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                 )
+    dispatcher.connect('users_change', '/users/change/', controller=optionsController,
+                        action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
+                ) 
+    dispatcher.connect('users_delete', '/users/change/:uid', controller=optionsController,
+                        action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
+                ) 
+
     dispatcher.connect('crypto_hot_cold', '/crypto/', controller=optionsController,
                         action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                 )
@@ -98,5 +106,3 @@ def start_service():
 if __name__ == '__main__':
     cherrypy.tools.CORS = cherrypy.Tool('before_finalize', CORS)
     start_service()
-    #loop = asyncio.get_event_loop()
-    #asyncio.set_event_loop(asyncio.new_event_loop())

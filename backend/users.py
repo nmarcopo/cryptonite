@@ -27,12 +27,11 @@ class UserController:
         output = {}
         payload = cherrypy.request.body.read()
         change_id = json.loads(payload)
-        user_ID = change_id['uid']
+        user_ID = change_id['user']
         pwd = change_id['pwd']
-        newID = change_id['newID']
-
+        newID = change_id['new_user']
         if self.udb.change_id(user_ID, newID, pwd):
-            output = {'result':'success', 'new_id':newID}
+            output = {'result':'success', 'new_user':newID}
         else:
             output = {'result':'error'}
         return json.dumps(output)
@@ -70,7 +69,9 @@ class UserController:
         change_pwd = json.loads(payload)
         curr_pwd = change_pwd['pwd']
         new_pwd = change_pwd['new_pwd']
+        old = self.udb[uid]
         if self.udb.change_pwd(uid, curr_pwd, new_pwd):
+            print(uid, self.udb[uid], old)
             output['result'] = 'success'
         else:
             output['result'] = 'error'
