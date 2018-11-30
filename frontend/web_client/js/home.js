@@ -2,7 +2,7 @@
 $(document).ready(function () {
     $("#modalInsert").load("res/modalLoginError.html", function () {
         // Present an error if user is not logged in.
-        if (sessionStorage.getItem("cryptoniteLogIn") != "true") {
+        if (sessionStorage.getItem("cryptoniteLogIn") == "false") {
             $("#logInErrorModal").modal("show");
         }
         $("#signOutButton").click(function () {
@@ -12,4 +12,5 @@ $(document).ready(function () {
     $("#settingsInsert").load("res/modalSettings.html", function () {
         console.log("settings loaded");
     });
+    $("#userNameText").html(sessionStorage.getItem("cryptoniteLogIn"));
 })

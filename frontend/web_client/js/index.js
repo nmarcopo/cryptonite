@@ -1,6 +1,6 @@
 // Auto run when index.html Welcome page is loaded
 $(function () {
-    if(sessionStorage.getItem("cryptoniteLogIn") == "true"){
+    if(sessionStorage.getItem("cryptoniteLogIn") != "false"){
         window.location.replace('home.html');
     }
     $("#modalInsert").load("res/modalSignUp.html", function () {
@@ -39,7 +39,7 @@ function signUpSubmit() {
             'pwd': pass
         }
         var xhr_putNewUser = new XMLHttpRequest();
-        xhr_putNewUser.open("POST", 'http://student04.cse.nd.edu:52109/users/');
+        xhr_putNewUser.open("POST", 'http://student04.cse.nd.edu:52109/users/', true);
         xhr_putNewUser.onload = function (e) {
             responseDict = JSON.parse(xhr_putNewUser.responseText);
             console.log(xhr_putNewUser.responseText);
@@ -50,7 +50,7 @@ function signUpSubmit() {
                 passNode.setAttribute("readonly", '""');
                 passConfNode.setAttribute("readonly", '""');
 
-                createNotification("success", loginContainer, "Well Done! You successfully created an account. Please close this window and log in.");
+                createNotification("success", loginContainer, "Well Done! You successfully created an account. Please close this window.");
             } else {
                 // fails when there is already an existing user
                 console.log('failure');
@@ -91,7 +91,7 @@ function logInSubmit() {
             'pwd': pass
         }
         var xhr_putNewUser = new XMLHttpRequest();
-        xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/');
+        xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/', true);
         xhr_putNewUser.onload = function (e) {
             responseDict = JSON.parse(xhr_putNewUser.responseText);
             console.log(xhr_putNewUser.responseText);
@@ -101,7 +101,7 @@ function logInSubmit() {
                 uidNode.setAttribute("readonly", '""');
                 passNode.setAttribute("readonly", '""');
                 createNotification("success", loginContainer, "Well Done! You successfully logged in.");
-                sessionStorage.setItem("cryptoniteLogIn", "true");
+                sessionStorage.setItem("cryptoniteLogIn", uid);
                 setTimeout(() => {
                     window.location.replace('home.html');
                 }, 1500);

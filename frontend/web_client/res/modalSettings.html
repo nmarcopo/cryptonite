@@ -1,5 +1,4 @@
 <!-- Modal for Settings -->
-<script src="js/settings.js"></script>
 <div class="modal fade" id="settingsModal" role="dialog">
     <div class="modal-dialog">
 
@@ -22,40 +21,39 @@
                     <div class="tab-pane fade show active" id="userSettings">
                         <div class="container">
                             <div class="tab-pane fade show active" id="userSettings">
-                                <div class="form-group border container">
-                                    <br>
-                                    <label for="inputChangeEmailCurrent">Change Email Address</label>
-                                    <input type="email" class="form-control" id="inputChangeEmailCurrent"
-                                        aria-describedby="emailHelp" placeholder="Enter current email" autocomplete="email">
+                                <div class="form-group border container" id="changeEmailForm">
                                     <br>
                                     <input type="email" class="form-control" id="inputChangeEmailNew" aria-describedby="emailHelp"
-                                        placeholder="Enter new email" autocomplete="email">
+                                        placeholder="Enter new email">
                                     <br>
                                     <input type="email" class="form-control" id="inputChangeEmailNewConf"
-                                        aria-describedby="emailHelp" placeholder="Confirm new email" autocomplete="email">
+                                        aria-describedby="emailHelp" placeholder="Confirm new email">
+                                    <br>
+                                    <input type="password" class="form-control" id="inputChangeEmailPass"
+                                        aria-describedby="emailHelp" placeholder="Enter current password">
                                     <br>
                                     <button id="submitEmailChangeButton" type="submit" class="btn btn-block">Change
                                         Email</button>
                                     <br>
-                                    
+
                                 </div>
                                 <div class="form-group border container">
-                                        <br>
-                                        <label for="inputChangePasswordCurrent">Change Password</label>
-                                        <input type="email" class="form-control" id="inputChangePasswordCurrent"
-                                            aria-describedby="emailHelp" placeholder="Enter current password" autocomplete="email">
-                                        <br>
-                                        <input type="email" class="form-control" id="inputChangePasswordNew" aria-describedby="emailHelp"
-                                            placeholder="Enter new password" autocomplete="email">
-                                        <br>
-                                        <input type="email" class="form-control" id="inputChangePasswordNewConf"
-                                            aria-describedby="emailHelp" placeholder="Confirm new password" autocomplete="email">
-                                        <br>
-                                        <button id="submitPasswordChangeButton" type="button" class="btn btn-block">Change
-                                            Email</button>
-                                        <br>
-                                        
-                                    </div>
+                                    <br>
+                                    <label for="inputChangePasswordCurrent">Change Password</label>
+                                    <input type="email" class="form-control" id="inputChangePasswordCurrent"
+                                        aria-describedby="emailHelp" placeholder="Enter current password" autocomplete="email">
+                                    <br>
+                                    <input type="email" class="form-control" id="inputChangePasswordNew"
+                                        aria-describedby="emailHelp" placeholder="Enter new password" autocomplete="email">
+                                    <br>
+                                    <input type="email" class="form-control" id="inputChangePasswordNewConf"
+                                        aria-describedby="emailHelp" placeholder="Confirm new password" autocomplete="email">
+                                    <br>
+                                    <button id="submitPasswordChangeButton" type="button" class="btn btn-block">Change
+                                        Email</button>
+                                    <br>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -88,3 +86,4 @@
 
     </div>
 </div>
+<script src="js/settings.js"></script>
