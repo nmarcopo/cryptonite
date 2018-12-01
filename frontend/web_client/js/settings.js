@@ -1,6 +1,7 @@
 $(function () {
     console.log("function loaded");
     document.getElementById("submitEmailChangeButton").addEventListener("click", changeEmail);
+    document.getElementById("submitPasswordChangeButton").addEventListener("click", changeEmail);
 });
 
 function changeEmail() {
@@ -41,7 +42,7 @@ function changeEmail() {
             } else {
                 // fails when there is already an existing user
                 console.log('failure');
-                createNotification("danger", loginContainer, "Oh snap! Thats current username isn't quite right. Try logging in, or creating a new user.");
+                createNotification("danger", loginContainer, "Oh snap! That current username isn't quite right. Try logging in, or creating a new user.");
             }
         }
         xhr_putNewUser.send(JSON.stringify(postRequest));
@@ -55,26 +56,17 @@ function changePassword() {
     var currentPassword = document.getElementById("inputChangePasswordCurrent").value;
     var newPassword = document.getElementById("inputChangePasswordNew").value;
     var newPasswordConf = document.getElementById("inputChangePasswordNewConf").value;
-    var loginContainer = document.getElementById("changeEmailForm");
-    
-    // Check if email field does not contain an email
-    // regex source: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!re.test(String(newEmail).toLowerCase())) {
-        createNotification("danger", loginContainer, "Your email address is not valid. Please enter a valid email.");
-        return;
-    }
+    var loginContainer = document.getElementById("changePasswordForm");
 
     // Check if new emails match
-    if (newEmail == newEmailConf && newEmail != "" && newEmailConf != "") {
+    if (newPassword == newPasswordConf && newPassword != "") {
         // Send POST request to create a new user
         var postRequest = {
-            'user': currentEmail,
-            'pwd': password,
-            'new_user' : newEmail
+            'pwd': currentPassword,
+            'new_pwd': password
         }
         var xhr_putNewUser = new XMLHttpRequest();
-        xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/change/', true);
+        xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/'+currentEmail, true);
         xhr_putNewUser.onload = function (e) {
             responseDict = JSON.parse(xhr_putNewUser.responseText);
             console.log(xhr_putNewUser.responseText);
@@ -83,12 +75,11 @@ function changePassword() {
                 console.log("success");
                 console.log(xhr_putNewUser.responseText);
 
-                createNotification("success", loginContainer, "Well Done! You successfully changed your email address to " + newEmail + ". ");
-                sessionStorage.setItem("cryptoniteLogIn", newEmail);
+                createNotification("success", loginContainer, "Well Done! You successfully changed your password");
             } else {
                 // fails when there is already an existing user
                 console.log('failure');
-                createNotification("danger", loginContainer, "Oh snap! Thats current username isn't quite right. Try logging in, or creating a new user.");
+                createNotification("danger", loginContainer, "Oh snap! Something went wrong, try again.");
             }
         }
         xhr_putNewUser.send(JSON.stringify(postRequest));
