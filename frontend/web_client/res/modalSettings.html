@@ -35,7 +35,6 @@
                                     <button id="submitEmailChangeButton" type="submit" class="btn btn-block">Change
                                         Email</button>
                                     <br>
-
                                 </div>
                                 <div class="form-group border container" id="changePasswordForm">
                                     <br>
@@ -52,7 +51,12 @@
                                     <button id="submitPasswordChangeButton" type="button" class="btn btn-block">Change
                                         Password</button>
                                     <br>
-
+                                </div>
+                                <div class="form-group border container" id="deleteUser">
+                                    <br>
+                                    <button id="deleteUserButton" type="button" class="btn btn-block btn-danger">Delete
+                                        Account</button>
+                                    <br>
                                 </div>
                             </div>
                         </div>
@@ -86,4 +90,37 @@
 
     </div>
 </div>
+
+<!-- Modal that appears when user attempts to access page without logging in -->
+<div class="modal fade" id="confirmDeleteUser" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Delete Account?</h3>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your account? You will lose all of your data. This action can't be undone.
+                <hr>
+                Enter your password to confirm you want to delete your account.
+                <br>
+                <br>
+                <label for="passwordDeleteUser">Password</label>
+                <input type="password" class="form-control" id="passwordDeleteUser" placeholder="Password">
+                <br>
+                <label for="passwordDeleteUserConfirm">Confirm Password</label>
+                <input type="password" class="form-control" id="passwordDeleteUserConfirm" placeholder="Password">
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button id="confirmDeleteAccountButton" type="button" class="btn btn-danger">Yes</button>
+            </div>
+            <div class="modal-body" id="deleteConfContent"></div>
+        </div>
+
+    </div>
+</div>
+
 <script src="js/settings.js"></script>

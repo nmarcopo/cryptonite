@@ -69,9 +69,9 @@ class UserController:
         change_pwd = json.loads(payload)
         curr_pwd = change_pwd['pwd']
         new_pwd = change_pwd['new_pwd']
-        old = self.udb[uid]
+        #old = self.udb[uid]
         if self.udb.change_pwd(uid, curr_pwd, new_pwd):
-            print(uid, self.udb[uid], old)
+            #print(uid, self.udb[uid], old)
             output['result'] = 'success'
         else:
             output['result'] = 'error'

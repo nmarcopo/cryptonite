@@ -7,7 +7,7 @@ $(function () {
         // Add active li to navbar
         jQuery("#" + pageName).addClass("active");
         // hide top bar elements if the user isn't signed in.
-        if (sessionStorage.getItem("cryptoniteLogIn") == "false") {
+        if (sessionStorage.getItem("cryptoniteLogIn") == null || sessionStorage.getItem("cryptoniteLogIn") == "null") {
             jQuery("#home").addClass("d-none");
             jQuery("#friends").addClass("d-none");
             jQuery("#about").addClass("d-none");

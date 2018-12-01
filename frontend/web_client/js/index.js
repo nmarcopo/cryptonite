@@ -1,6 +1,6 @@
 // Auto run when index.html Welcome page is loaded
 $(function () {
-    if(sessionStorage.getItem("cryptoniteLogIn") != "false"){
+    if(sessionStorage.getItem("cryptoniteLogIn") != null && sessionStorage.getItem("cryptoniteLogIn") != "null"){
         window.location.replace('home.html');
     }
     $("#modalInsert").load("res/modalSignUp.html", function () {
