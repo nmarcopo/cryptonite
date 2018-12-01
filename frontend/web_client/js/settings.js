@@ -52,9 +52,9 @@ function changeEmail() {
 
 function changePassword() {
     var currentEmail = sessionStorage.getItem("cryptoniteLogIn");
-    var newEmail = document.getElementById("inputChangeEmailNew").value;
-    var newEmailConf = document.getElementById("inputChangeEmailNewConf").value;
-    var password = document.getElementById("inputChangeEmailPass").value;
+    var currentPassword = document.getElementById("inputChangePasswordCurrent").value;
+    var newPassword = document.getElementById("inputChangePasswordNew").value;
+    var newPasswordConf = document.getElementById("inputChangePasswordNewConf").value;
     var loginContainer = document.getElementById("changeEmailForm");
     
     // Check if email field does not contain an email
