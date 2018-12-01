@@ -48,14 +48,14 @@ class TestServer(unittest.TestCase):
 	
 		# create a new UID	
 		u={}
-		u['uid']= 'chanheeSucks'
+		u['user']= 'chanheeSucks'
 		u['pwd'] = 'peanuts'
-		u['newID']='andyRocks'
+		u['new_user']='andyRocks'
 		r = requests.put(self.USERS_URL+'change/', data = json.dumps(u))
 		self.assertTrue(self.is_json(r.content.decode()))
 		resp = json.loads(r.content.decode())
 		self.assertEqual(resp['result'],'success')
-		self.assertEqual(resp['new_id'],'andyRocks')
+		self.assertEqual(resp['new_user'],'andyRocks')
 
 	# checks changing passwords through a PUT request to USERS_URL
 	def test_users_pw_check(self):
