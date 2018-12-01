@@ -9,13 +9,13 @@ class UserController:
         self.udb = _user_database
     
     # Get user wallet info
-    def GET_WALLET(self, uid):
+    def GET_WALLET(self, user):
         output = {}
-        if uid in self.udb.user_wallet:
-            output = {'result':'success', 'id': uid}
+        if user in self.udb.user_wallet:
+            output = {'result':'success', 'id': user}
             coin_list = []
-            if self.udb.user_wallet[uid]:
-                for item in self.udb.user_wallet[uid]:
+            if self.udb.user_wallet[user]:
+                for item in self.udb.user_wallet[user]:
                     coin_list.append(item)
                 output['wallet'] = coin_list
         else:
@@ -41,9 +41,9 @@ class UserController:
         output = {}
         payload = cherrypy.request.body.read()
         user_info = json.loads(payload)
-        uid = user_info['user']
+        user = user_info['user']
         pwd = user_info['pwd']
-        if self.udb.check_pwd(uid, pwd):
+        if self.udb.check_pwd(user, pwd):
             output = {'result':'success'}
         else:
             output = {'result':'error'}
@@ -54,48 +54,46 @@ class UserController:
         output = {}
         payload = cherrypy.request.body.read()
         new_id = json.loads(payload)
-        uid = new_id['user']
+        user = new_id['user']
         pwd = new_id['pwd']
-        if self.udb.set_user(uid, pwd):
+        if self.udb.set_user(user, pwd):
             output['result'] = 'success'
         else:
             output['result'] = 'error'
         return json.dumps(output)
     
     # Change password
-    def PUT(self, uid):
+    def PUT(self, user):
         output = {}
         payload = cherrypy.request.body.read()
         change_pwd = json.loads(payload)
         curr_pwd = change_pwd['pwd']
         new_pwd = change_pwd['new_pwd']
-        #old = self.udb[uid]
-        if self.udb.change_pwd(uid, curr_pwd, new_pwd):
-            #print(uid, self.udb[uid], old)
+        if self.udb.change_pwd(user, curr_pwd, new_pwd):
             output['result'] = 'success'
         else:
             output['result'] = 'error'
         return json.dumps(output)
     
     # Add new data
-    def POST(self, uid):
+    def POST(self, user):
         output = {}
         payload = cherrypy.request.body.read()
         new_info = json.loads(payload)
         asset_dict = new_info['asset']
-        if self.udb.add_sub_asset(uid, asset_dict):
+        if self.udb.add_sub_asset(user, asset_dict):
             output['result'] = 'success'
         else:
             output['result'] = 'error'
         return json.dumps(output)
 
     # Delete user
-    def PUT_DELETE(self, uid):
+    def PUT_DELETE(self, user):
         output = {}
         payload = cherrypy.request.body.read()
         pwd_info = json.loads(payload)
         pwd = pwd_info['pwd']
-        if self.udb.delete_user(uid, pwd):
+        if self.udb.delete_user(user, pwd):
             output['result'] = 'success'
         else:
             output['result'] = 'error'
