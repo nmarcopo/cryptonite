@@ -29,7 +29,7 @@ def start_service():
     cController = CryptoController(crypto)
     rController = ResetController(udb, crypto)
     # User db controller
-    dispatcher.connect('user_get_wallet', '/users/:uid', controller=uController,
+    dispatcher.connect('user_get_wallet', '/users/:user', controller=uController,
                         action = 'GET_WALLET', conditions=dict(method=['GET'])
                 )
     dispatcher.connect('user_changeID', '/users/change/', controller=uController,
@@ -41,13 +41,13 @@ def start_service():
     dispatcher.connect('make_new_id', '/users/', controller=uController,
                         action = 'POST_ID', conditions=dict(method=['POST'])
                 )
-    dispatcher.connect('change_pwd', '/users/:uid', controller=uController,
+    dispatcher.connect('change_pwd', '/users/:user', controller=uController,
                         action = 'PUT', conditions=dict(method=['PUT'])
                 )
-    dispatcher.connect('add_asset', '/users/:uid', controller=uController,
+    dispatcher.connect('add_asset', '/users/:user', controller=uController,
                         action = 'POST', conditions=dict(method=['POST'])
                 )
-    dispatcher.connect('delete_user', '/users/change/:uid', controller=uController,
+    dispatcher.connect('delete_user', '/users/change/:user', controller=uController,
                         action = 'PUT_DELETE', conditions=dict(method=['PUT'])
                 )
     # Crypto api controller
@@ -63,7 +63,7 @@ def start_service():
                 )
 
     # Options requests for dispatcher
-    dispatcher.connect('user_options', '/users/:uid', controller=optionsController,
+    dispatcher.connect('user_options', '/users/:user', controller=optionsController,
                         action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                 )
     dispatcher.connect('users_all', '/users/', controller=optionsController,
@@ -72,7 +72,7 @@ def start_service():
     dispatcher.connect('users_change', '/users/change/', controller=optionsController,
                         action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                 ) 
-    dispatcher.connect('users_delete', '/users/change/:uid', controller=optionsController,
+    dispatcher.connect('users_delete', '/users/change/:user', controller=optionsController,
                         action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                 ) 
 
