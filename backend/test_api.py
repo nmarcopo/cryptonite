@@ -12,7 +12,7 @@ import asyncio
 class TestAPIDatabase(unittest.TestCase):
         """unit tests for crypto API and user database"""
 
-        udb = _user_database()
+        udb = _user_database("test_pwd.db", "test_wallet.db")
         crypto_data = _crypto_api()
         
         ## Test user database
