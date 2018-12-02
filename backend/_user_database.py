@@ -91,6 +91,7 @@ class _user_database:
         try:
             with open(self.w_db, "r") as wallet:
                 self.user_wallet = json.loads(wallet.read())
+            #print(user, self.udb[user], old)
         except json.decoder.JSONDecodeError:
             i = "do_nothing"
  
