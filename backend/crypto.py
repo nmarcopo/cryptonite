@@ -28,10 +28,10 @@ class CryptoController:
                 with open('hotcold.dat') as f:
                     data = f.readline().strip()
                     preloaded = json.loads(data)
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            response = loop.run_until_complete(self.crypto.find_hottest_coldest(days, count, temp, preloaded))
-
+            if static:
+                response = self.crypto.find_hottest_coldest_static(days, count, temp, preloaded)
+            else:
+                response = self.crypto.find_hottest_coldest(days, count, temp)
             crypto_data = json.loads(response)
             output['result'] = 'success'
             output['crypto'] = crypto_data
@@ -61,43 +61,46 @@ class CryptoController:
         return json.dumps(output)
  
     # Do what if investment
-    def PUT(self, days):
-        try:
-            output = {}
-            payload = cherrypy.request.body.read()
-            data = json.loads(payload)
-            asset = data['asset'][0]                # data['asset'] is a list
-            preloaded = None
+    def PUT_WHATIF(self):
+        output = {}
+        #try:
+        payload = cherrypy.request.body.read()
+        data = json.loads(payload)
+        print("data is ", data)
+        asset = data['asset']                  # data['asset'] is a list
+        print("this is asset ", asset, type(asset))
+        preloaded = None
+        if data['static'] != 'false':
             with open('whatif.dat') as f:
                 data = f.readline().strip()
                 preloaded = json.loads(data)
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            response = loop.run_until_complete(self.crypto.what_if_investment(int(days), asset, preloaded))
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        response = loop.run_until_complete(self.crypto.what_if_investment(asset, preloaded))
+        print('response is ', response)
 
-            output = json.loads(response)
-            output['result'] = 'success'
-        except:
-            output['result'] = 'error'
+        output = json.loads(response)
+        output['result'] = 'success'
+        #except Exception as e:
+        #    print('exception is {}'.format(e))
+        #    output['result'] = 'error'
         return json.dumps(output)
     
     # Get top5 Hottest
     def GET_TEMP(self, temp):
-        try:
-            temp = temp
-            days = 10
-            count = 5
-            static = False
-            preloaded = None
+        output = {}
+        #try:
+        temp = temp
+        days = 10
+        count = 5
+        static = False
             #with open('crypto.dat') as f:
             #    data = f.readline().strip()
             #    preloaded = json.loads(data)
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            response = loop.run_until_complete(self.crypto.find_hottest_coldest(days, count, temp, preloaded))
-
-            output = json.loads(response)
-            output['result'] = 'succes'
-        except:
-            output['result'] = 'failure'
+        response = self.crypto.find_hottest_coldest(days, count, temp)
+        data = json.loads(response)
+        output['result'] = 'success'
+        output['data'] = data
+        #except:
+            #output['result'] = 'error'
         return json.dumps(output)

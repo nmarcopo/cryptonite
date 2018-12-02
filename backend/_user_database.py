@@ -68,7 +68,7 @@ class _user_database:
             if not self.user_wallet[user]:
                 self.user_wallet[user].append(asset_dict)
             else:
-                merged_dict = {k: self.user_wallet[user][0].get(k, 0) + asset_dict.get(k, 0) for k in set(self.user_wallet[user][0]) | set(asset_dict)}
+                merged_dict = {k: float(self.user_wallet[user][0].get(k, 0)) + float(asset_dict.get(k, 0)) for k in set(self.user_wallet[user][0]) | set(asset_dict)}
                 self.user_wallet[user][0] = merged_dict
             self.update()
             return True

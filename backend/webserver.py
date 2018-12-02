@@ -60,8 +60,8 @@ def start_service():
     dispatcher.connect('get_hotcold5', '/crypto/:temp', controller=cController,
                         action = 'GET_TEMP', conditions=dict(method=['GET'])
                 )
-    dispatcher.connect('what_if', '/crypto/:days', controller=cController,
-                        action = 'PUT', conditions=dict(method=['PUT'])
+    dispatcher.connect('what_if', '/crypto/whatif/', controller=cController,
+                        action = 'PUT_WHATIF', conditions=dict(method=['PUT'])
                 )
     # Reset controller
     dispatcher.connect('reset', '/reset/', controller=rController,
@@ -85,7 +85,7 @@ def start_service():
     dispatcher.connect('crypto_hot_cold', '/crypto/', controller=optionsController,
                         action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                 )
-    dispatcher.connect('crypto_whatif', '/crypto/:days', controller=optionsController,
+    dispatcher.connect('crypto_whatif', '/crypto/whatif/', controller=optionsController,
                         action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                 )
     dispatcher.connect('user_reset', '/reset/', controller=optionsController,
@@ -109,24 +109,15 @@ def start_service():
     app = cherrypy.tree.mount(None, config=conf)
     cherrypy.quickstart(app)
 
-class fetcher:
-    def __init__(self, crypto_api):
-        self.crypto = crypto_api
-
-    def fetch_data(self):
-        self.crypto.fetch_data()
-        print("fetched")
-
 def fetch_data():
-    print("hahahahahah\n\n\n\n\n\n")
     crypto = _crypto_api()
     crypto.fetch_data()
-    print("fetched")
+    print("fetched\n\n")
 
     
 
 if __name__ == '__main__':
     cherrypy.tools.CORS = cherrypy.Tool('before_finalize', CORS)
-    bg = cherrypy.process.plugins.BackgroundTask(15, fetch_data)
+    bg = cherrypy.process.plugins.BackgroundTask(60, fetch_data)
     bg.start()
     start_service()

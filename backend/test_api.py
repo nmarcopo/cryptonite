@@ -91,17 +91,17 @@ class TestAPIDatabase(unittest.TestCase):
         def test_find_hottest_coldest(self):
             with open('hotcold.dat') as f:
                 data = f.readline().strip()
-            loop = asyncio.get_event_loop()
-            response = loop.run_until_complete(self.crypto_data.find_hottest_coldest(10, 5, 'hot', json.loads(data)))
-            self.assertEqual(response, json.dumps({"mode": "hot", "BCH": "40.97%", "XRP": "16.44%", "XLM": "11.80%", "DASH": "8.67%", "ETH": "7.71%"}))
+            response = self.crypto_data.find_hottest_coldest_static(10, 5, 'hot', json.loads(data))
+            self.assertEqual(response, json.dumps({"BCH": "40.97%", "XRP": "16.44%", "XLM": "11.80%", "DASH": "8.67%", "ETH": "7.71%"}))
 
         # Check crypto portofolio investment is working
         def test_what_if_investment(self):
             with open('whatif.dat') as f:
                 data = f.readline().strip()
             loop = asyncio.get_event_loop()
-            response = loop.run_until_complete(self.crypto_data.what_if_investment(100, {'BTC':2, 'DBC':100}, json.loads(data)))
-            self.assertEqual(response, json.dumps({"Net Profit": "-3327.38", "Net Percentage": "-20.24", "breakdown": [{"crypto": "BTC", "profit": "-3325.26", "profit percentage": "-20.23"}, {"crypto": "DBC", "profit": "-2.12", "profit percentage": "-73.81"}]}))
+            response = loop.run_until_complete(self.crypto_data.what_if_investment([{'BTC':[100, 2]}, {'DBC':[100, 100]}], json.loads(data)))
+            resp = json.loads(response)
+            self.assertEqual(resp, {'Net Profit': '-3327.38', 'Net Percentage': '-20.24', 'breakdown': [{'crypto': 'BTC', 'profit': '-3325.26', 'profit percentage': '-20.23', 'days': 100}, {'crypto': 'DBC', 'profit': '-2.12', 'profit percentage': '-73.81', 'days': 100}]})
 
 if __name__ == "__main__":
     unittest.main()
