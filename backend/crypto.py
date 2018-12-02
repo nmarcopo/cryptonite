@@ -37,6 +37,7 @@ class CryptoController:
             payload = cherrypy.request.body.read()
             data = json.loads(payload)
             asset = data['asset'][0]                # data['asset'] is a list
+            #whatif.dat is preloaded data
             with open('whatif.dat') as f:
                 preloaded = f.readline().strip()
             loop = asyncio.new_event_loop()
