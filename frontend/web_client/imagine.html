@@ -16,6 +16,7 @@
     <!-- Standard header bar -->
     <script src="js/main.js"></script>
     <link rel="shortcut icon" href="favicon.ico" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 </head>
 
 <body>
@@ -30,14 +31,15 @@
                     today, 6 years ago? Or, what if you didn't sell your Monero before it crashed? With this tool, you
                     can see the net results of buying a cryptocurrency days, weeks, or even years ago.</p>
                 <div class="d-flex justify-content-center">
-                    <p class="w-75 text-justify">To use this feature, type a number of days into past you'd like to invest in the
+                    <p class="w-75 text-justify">To use this feature, type a number of days into past you'd like to
+                        invest in the
                         'days' field. Then, choose one of the current top 15 cryptocurrencies from our dropdown menu.
                         Finally, set an amount of that crypto you would have invested in all those years ago. Click the
                         + button if you'd like to add another cryptocurrency to invest in.</p>
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <div class="w-75 p-3 card mb-3">
+                <div id="imagineTableCard" class="w-75 p-3 card mb-3">
                     <div class="card-body">
                         <div class="form-group">
                             <table class="table table-hover">
@@ -52,7 +54,8 @@
                                 <tbody id="imagineTableBody">
                                     <tr class="table-secondary">
                                         <th scope="row">
-                                            <input type="number" min="1" max="3000" class="form-control border imagineDaysInput" aria-label="Days">
+                                            <input type="number" min="1" max="2000" class="form-control border imagineDaysInput"
+                                                aria-label="Days">
                                         </th>
                                         <td>
                                             <select class="form-control border imagineCryptoInput" id="modeSelect">
@@ -74,7 +77,8 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="number" min="0" class="form-control border imagineAmountInput" aria-label="Amount">
+                                            <input type="number" min="0" class="form-control border imagineAmountInput"
+                                                aria-label="Amount">
                                         </td>
                                         <td>
                                             <button id="imagineRemoveButton" class="btn btn-warning" type="button">-</button>
@@ -92,6 +96,12 @@
                     <div class="container">
                         <div class="text-center">
                             <button id="imagineSearchButton" type="button" class="btn btn-primary">Search</button>
+                            <br><br>
+                            <div class="progress d-none" id="imagineProgress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
+                                    style="width: 100%"></div>
+                            </div>
+                            <br>
                         </div>
                     </div>
                 </div>
