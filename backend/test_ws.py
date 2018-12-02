@@ -149,8 +149,7 @@ class TestServer(unittest.TestCase):
 		self.assertTrue(self.is_json(r.content.decode()))
 		resp = json.loads(r.content.decode())
 		self.assertEqual(resp['result'],'success')
-		 
-		
+		 	
 		# checks values of wallet with expected response
 		r = requests.get(self.USERS_URL + URL) 
 		self.assertTrue(self.is_json(r.content.decode()))
