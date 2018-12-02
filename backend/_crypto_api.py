@@ -8,7 +8,7 @@ import json
 class _crypto_api:
     def __init__(self):
         self.apiBaseURL = "https://min-api.cryptocompare.com/data/"
-        self.top15List = ["BTC","ETH","XRP","BCH","EOS","XLM","LTC","ADA","XMR","USDT","TRX","DASH","IOTA","TRX","DASH"]
+        self.top15List = ["BTC","ETH","XRP","BCH","EOS","XLM","LTC","ADA","XMR","USDT","TRX","DASH","IOTA","BSV","XEM"]
         
     async def find_hottest_coldest(self, days, topN, mode, dataset=None):
         # get top 10 most increased value crypto
