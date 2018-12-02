@@ -205,6 +205,16 @@ class TestServer(unittest.TestCase):
 		resp = json.loads(r.content.decode())
 		# checks return value with preloaded expected values
 		self.assertEqual(resp,{'result':'success','mode':'hot','BCH':'40.97%','XRP':'16.44%','XLM':'11.80%','DASH':'8.67%','ETH':'7.71%'})
+    
+	# Test crypto price fetch
+	def test_crypto_data(self):
+		self.reset_data()
+		cryptodict = {}
+		cryptodict['crypto'] = ["XRP", "BTC"]
+		r = requests.post(self.CRYPTO_URL, data = json.dumps(cryptodict))
+		self.assertTrue(self.is_json(r.content.decode()))
+		self.assertTrue("XRP" in json.loads(r.content.decode()))
+		self.assertTrue("BTC" in json.loads(r.content.decode()))
 
 	# checks PUT request of CRYPTO_URL + DAYS to find summary of a dict of cryptocurrencies that were invested DAYs days ago
 	def test_crypto_if_put(self):

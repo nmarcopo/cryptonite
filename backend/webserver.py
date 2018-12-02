@@ -54,6 +54,10 @@ def start_service():
     dispatcher.connect('get_hottest', '/crypto/', controller=cController,
                         action = 'PUT_TOPN', conditions=dict(method=['PUT'])
                 )
+    dispatcher.connect('get_price', '/crypto/', controller=cController,
+                        action = 'POST', conditions=dict(method=['POST'])
+                )
+
     dispatcher.connect('what_if', '/crypto/:days', controller=cController,
                         action = 'PUT', conditions=dict(method=['PUT'])
                 )

@@ -2,7 +2,7 @@
 # Luke Song, Nick Marcopoli, Andy Shin, Austin Sura
 # crypto db controller
 
-import json, cherrypy, asyncio
+import json, cherrypy, asyncio, requests
 
 class CryptoController:
     def __init__(self, _crypto_api):
@@ -31,7 +31,26 @@ class CryptoController:
         except:
             output['result'] = 'error'
         return json.dumps(output)
-    
+
+    # Get crypto data
+    def POST(self):
+        output = {}
+        BASE_URL = "https://min-api.cryptocompare.com/data/"
+        payload = cherrypy.request.body.read()
+        data = json.loads(payload)
+        cryptos = data['crypto']
+        crypto_string = ','.join(cryptos)
+        PRICE_URL = BASE_URL + "pricemulti?fsyms={}&tsyms=USD".format(crypto_string)
+        try:
+            r = requests.get(PRICE_URL)
+            resp = r.json()
+            for crypto in resp:
+                output[crypto] = resp[crypto]['USD']
+            output['result'] = 'success'
+        except:
+            output['result'] = 'error'
+        return json.dumps(output)
+ 
     # Do what if investment
     def PUT(self, days):
         try:

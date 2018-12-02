@@ -113,3 +113,13 @@ class _crypto_api:
             data["breakdown"].append(mydict)
             
         return json.dumps(data)
+
+    # Constantly fetch hot and cold info every 10 mins
+    def fetch_data(self):
+        loop = asyncio.get_event_loop()
+        response = loop.run_until_complete(self.crypto.find_hottest_coldest(500, 15, 'hot', None))
+        output = json.loads(response)
+        with open('crypto.dat') as f:
+            json.dump(output, f)
+        pass
+        
