@@ -52,12 +52,14 @@ def start_service():
                 )
     # Crypto api controller
     dispatcher.connect('get_hottest', '/crypto/', controller=cController,
-                        action = 'PUT_TOPN', conditions=dict(method=['PUT'])
+                        action = 'POST_TOPN', conditions=dict(method=['POST'])
                 )
     dispatcher.connect('get_price', '/crypto/', controller=cController,
-                        action = 'POST', conditions=dict(method=['POST'])
+                        action = 'PUT', conditions=dict(method=['PUT'])
                 )
-
+    dispatcher.connect('get_hotcold5', '/crypto/:temp', controller=cController,
+                        action = 'GET_TEMP', conditions=dict(method=['GET'])
+                )
     dispatcher.connect('what_if', '/crypto/:days', controller=cController,
                         action = 'PUT', conditions=dict(method=['PUT'])
                 )
@@ -107,6 +109,24 @@ def start_service():
     app = cherrypy.tree.mount(None, config=conf)
     cherrypy.quickstart(app)
 
+class fetcher:
+    def __init__(self, crypto_api):
+        self.crypto = crypto_api
+
+    def fetch_data(self):
+        self.crypto.fetch_data()
+        print("fetched")
+
+def fetch_data():
+    print("hahahahahah\n\n\n\n\n\n")
+    crypto = _crypto_api()
+    crypto.fetch_data()
+    print("fetched")
+
+    
+
 if __name__ == '__main__':
     cherrypy.tools.CORS = cherrypy.Tool('before_finalize', CORS)
+    bg = cherrypy.process.plugins.BackgroundTask(15, fetch_data)
+    bg.start()
     start_service()
