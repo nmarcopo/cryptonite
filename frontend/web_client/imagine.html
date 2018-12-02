@@ -25,43 +25,79 @@
     <div class="container">
         <div class="jumbotron">
             <h1 class="display-3">Imagine</h1>
+            <div class="container">
+                <p class="lead text-justify">Just imagine: what if you knew Bitcoin would be as valuable as it is
+                    today, 6 years ago? Or, what if you didn't sell your Monero before it crashed? With this tool, you
+                    can see the net results of buying a cryptocurrency days, weeks, or even years ago.</p>
+                <div class="d-flex justify-content-center">
+                    <p class="w-75 text-justify">To use this feature, type a number of days into past you'd like to invest in the
+                        'days' field. Then, choose one of the current top 15 cryptocurrencies from our dropdown menu.
+                        Finally, set an amount of that crypto you would have invested in all those years ago. Click the
+                        + button if you'd like to add another cryptocurrency to invest in.</p>
+                </div>
+            </div>
             <div class="d-flex justify-content-center">
                 <div class="w-75 p-3 card mb-3">
                     <div class="card-body">
                         <div class="form-group">
-                            <div class="form-group">
-                                <div class="w-25 input-group mb-3">
-                                    <input type="text" class="form-control border" aria-label="Days">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">days</span>
-                                    </div>
-                                </div>
-                                <div class="w-75 input-group mb-3">
-                                    <input type="text" class="form-control border" aria-label="Crypto">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">crypto</span>
-                                    </div>
-                                    <input type="text" class="form-control border" aria-label="Amount">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">amount</span>
-                                    </div>
-                                </div>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30%" scope="col">Days in the Past</th>
+                                        <th style="width: 35%" scope="col">Crypto</th>
+                                        <th style="width: 30%" scope="col">Amount Crypto</th>
+                                        <th style="width: 5%" scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="imagineTableBody">
+                                    <tr class="table-secondary">
+                                        <th scope="row">
+                                            <input type="number" min="1" max="3000" class="form-control border imagineDaysInput" aria-label="Days">
+                                        </th>
+                                        <td>
+                                            <select class="form-control border imagineCryptoInput" id="modeSelect">
+                                                <option>BTC</option>
+                                                <option>ETH</option>
+                                                <option>XRP</option>
+                                                <option>BCH</option>
+                                                <option>EOS</option>
+                                                <option>XLM</option>
+                                                <option>LTC</option>
+                                                <option>ADA</option>
+                                                <option>XMR</option>
+                                                <option>USDT</option>
+                                                <option>TRX</option>
+                                                <option>DASH</option>
+                                                <option>IOTA</option>
+                                                <option>BSV</option>
+                                                <option>XEM</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control border imagineAmountInput" aria-label="Amount">
+                                        </td>
+                                        <td>
+                                            <button id="imagineRemoveButton" class="btn btn-warning" type="button">-</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            <div class="footer">
+                                <button id="imagineAddButton" type="button" class="btn btn-success">+</button>
                             </div>
                         </div>
-                       <div class="container">
-        					<div class="row">
-            					<div class="col-xs-12">
-                					<div  class="text-center">
-                            			<button type="button" class="btn btn-primary">Add</button>
-                            			<button type="button" class="btn btn-primary">Search</button>
-                					</div>
-            					</div>
-        					</div>
-    					</div> 
+                    </div>
+                    <hr class="my-4">
+                    <div class="container">
+                        <div class="text-center">
+                            <button id="imagineSearchButton" type="button" class="btn btn-primary">Search</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <div id="modalInsert"></div>
     <div id="settingsInsert"></div>
@@ -71,6 +107,7 @@
     <script src="js/bootstrap/bootstrap.min.js"></script>
     <script src="js/json2.js"></script>
     <script src="js/home.js"></script>
+    <script src="js/imagine.js"></script>
 </body>
 
 </html>

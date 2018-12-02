@@ -59,11 +59,11 @@ function changePassword() {
     var newPasswordConf = document.getElementById("inputChangePasswordNewConf").value;
     var loginContainer = document.getElementById("changePasswordForm");
 
-    // Check if new emails match
+    // Check if new passwords match
     if (newPassword == newPasswordConf && newPassword != "" && (currentEmail != null || currentEmail != "null")) {
         console.log(currentEmail);
 
-        // Send POST request to create a new user
+        // Send PUT request to create a new password
         var putRequest = {
             'pwd': currentPassword,
             'new_pwd': newPassword
