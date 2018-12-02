@@ -46,8 +46,7 @@ The output will tell you if the API passed the tests.
 | /users/change/:uid |                               | Delete user                  |                                 |        |
 | /crypto/           |                               | Get current crypto price     | find hottest and coldest crypto |        |
 | /crypto/:days      |                               | what if investment simulator |                                 |        |
-| /crypto/hot/       | Get top5 hottest              |                              |                                 |        |
-| /crypto/cold/      | Get top5 coldest              |                              |                                 |        |
+| /crypto/:temp      | Get top5 hottest / coldest    |                              |                                 |        |
 | /reset/            | Reset user db (test purposes) |                              |                                 |        |
 
 - PUT to /users/
