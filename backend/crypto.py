@@ -71,6 +71,9 @@ class CryptoController:
         print("this is asset ", asset, type(asset))
         preloaded = None
         if data['static'] != 'false':
+            payload = cherrypy.request.body.read()
+            data = json.loads(payload)
+            asset = data['asset'][0]                # data['asset'] is a list
             with open('whatif.dat') as f:
                 data = f.readline().strip()
                 preloaded = json.loads(data)
