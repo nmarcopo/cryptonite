@@ -36,7 +36,7 @@ function discover() {
         responseDict = JSON.parse(xhr_discover.responseText);
         if (responseDict['result'] == 'success') {
             // give success message
-        	populate(responseDict["crypto"])	
+			populate(responseDict['crypto'])	
 		} 
         else {
         	var sContainer = document.getElementById("searchContainer");
@@ -60,15 +60,15 @@ function populate(crypto_data){
 			</tr>
 		</thead>`
 	var i = 0;
-	for (const [key, value] of Object.entries(crypto_data)) {
+	for (Array a: crypto_data) {
 	  i += 1;
-	  var val = Number(value.substring(0, value.length -1));
+	  var val = Number(a[1].substring(0, a[1].length -1));
 	  if(val >= 0){
 	  	newTableElement += `<tbody>
 			<tr class="table-success">
 				<th scope="row">`+i+`.</th>
-				<td>`+key+`</td>
-				<td>`+value+`</td>
+				<td>`+a[0]+`</td>
+				<td>`+a[1]+`</td>
 			</tr>
 		</tbody>`;
 	  }
@@ -76,8 +76,8 @@ function populate(crypto_data){
 	  	newTableElement += `<tbody>
 			<tr class="table-danger">
 				<th scope="row">`+i+`.</th>
-				<td>`+key+`</td>
-				<td>`+value+`</td>
+				<td>`+a[0]+`</td>
+				<td>`+a[1]+`</td>
 			</tr>
 		</tbody>`;
 	  }
