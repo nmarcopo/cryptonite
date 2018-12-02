@@ -185,6 +185,5 @@ class _crypto_api:
             
         for key, val in respDict.items():
             resp = json.loads(val.content)
-            returnDict[key] = resp
-        
+            returnDict[key] = resp 
         return returnDict
