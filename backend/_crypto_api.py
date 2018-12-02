@@ -57,7 +57,6 @@ class _crypto_api:
         
         # Format output json
         data = {}
-        data['mode'] = mode
         for item, val in sorted_by_value[0:topN]:
             data[item] = "{:.2f}%".format(val)
         return json.dumps(data)
@@ -116,10 +115,55 @@ class _crypto_api:
 
     # Constantly fetch hot and cold info every 10 mins
     def fetch_data(self):
-        loop = asyncio.get_event_loop()
-        response = loop.run_until_complete(self.crypto.find_hottest_coldest(500, 15, 'hot', None))
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        response = loop.run_until_complete(self.find_hottest_coldest(1000, 15, 'hot', None))
         output = json.loads(response)
-        with open('crypto.dat') as f:
+        print(output)
+        with open('crypto.dat', "w+") as f:
             json.dump(output, f)
-        pass
+    
+    def find_hottest_coldest_test(self, days, topN, mode, dataset='crypto.dat'):
         
+        #TODO parse static data
+        
+
+
+        if mode == "hot":
+            sorted_by_value = sorted(coinDict.items(), key=lambda kv: kv[1], reverse=True)
+        elif mode == "cold":
+            sorted_by_value = sorted(coinDict.items(), key=lambda kv: kv[1], reverse=False)
+        # Format output json
+        data = {}
+        data['mode'] = mode
+        for item, val in sorted_by_value[0:topN]:
+            data[item] = "{:.2f}%".format(val)
+        return json.dumps(data)
+
+    async def find_hottest_coldest_new(self, days, topN, mode, dataset=None):
+        # get top 10 most increased value crypto
+        # calculated by doing open on first day to close on last day
+        respDict = dataset
+
+        # Extract json response
+        coinDict = {}
+        for key, val in respDict.items():
+            if dataset is None:
+                # need to load content if it came from online source
+                resp = json.loads(val.content)
+            else:
+                # don't load content if it's a static database
+                resp = val
+            try:
+                cryptoDataDaysAgo = resp['Data'][0]['open']
+            except IndexError:
+                # if the api ran out of free queries, skip that part of the data
+                continue
+            if cryptoDataDaysAgo == 0:
+                continue
+            # calculate the hot measurements
+            cryptoDataToday = resp['Data'][days]['close']
+            hotMeasurement = (cryptoDataToday - cryptoDataDaysAgo) / cryptoDataDaysAgo * 100
+            coinDict[key] = hotMeasurement
+        
+        return coinDict
