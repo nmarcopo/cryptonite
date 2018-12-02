@@ -25,33 +25,44 @@
     <div class="container">
         <div class="jumbotron">
             <h1 class="display-3">Discover</h1>
+             <div class="container">
+                <p class="lead text-justify">Welcome to the Discover Page! Here is your one stop shop to find information on all of the trending cryptocurrencies. Find out which cryptos have been hot in recent markets, or find a fantastic buy-low opportunity on a struggling coin.</p>
+                <div class="d-flex justify-content-center">
+                    <p class="w-75 text-justify">To use this feature, first select either hottest or coldest in the first dropdown menu to find the fastest growing or worst performing coins, respectively. Then, manually enter the time range for the calculation, either by typing or using the up and down arrows. Lastly, choose the number of coins you would like to display in the second dropdown menu.
+                        </p>
+                </div>
+            </div>
             <div class="d-flex justify-content-center">
-                <div class="w-75 p-3 card mb-3">
+                <div class="w-75 p-3 card mb-3" id="searchContainer">
                     <div class="card-body">
-                        <div class="form-group">
+                        <div class="container">
                             <div class="form-group">
                                 <div class="input-group mb-3">
                                     <select class="form-control border" id="modeSelect">
-                                        <option>hottest</option>
-                                        <option>coldest</option>
+                                        <option>Hottest</option>
+                                        <option>Coldest</option>
                                     </select>
-                                    <input type="text" class="form-control border" aria-label="Days">
+                                    <input type="number" min="1" max="2000" class="form-control border" id="Days">
                                     <div class="input-group-append">
                                         <span class="input-group-text">days</span>
                                     </div>
                                     <select class="form-control border" id="resultsSelect">
-                                        <option>top 5</option>
-                                        <option>top 10</option>
+                                        <option>Top 3</option>
+                                        <option>Top 5</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-primary">Search</button>
+                            <button id="searchButton" type="button" class="btn btn-primary">Search</button>
                         </div>
                     </div>
                 </div>
             </div>
+			<div class="d-flex justify-content-center">
+				<div class = "w-50 p-3" id="searchResults">
+				</div>
+			</div>
         </div>
     </div>
     <div id="modalInsert"></div>
@@ -62,6 +73,7 @@
     <script src="js/bootstrap/bootstrap.min.js"></script>
     <script src="js/json2.js"></script>
     <script src="js/home.js"></script>
+    <script src="js/search.js"></script>
 </body>
 
 </html>
