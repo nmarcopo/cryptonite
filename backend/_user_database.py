@@ -64,7 +64,6 @@ class _user_database:
     
     # Manipulate user wallet
     def add_sub_asset(self, user, asset_dict):
-        #print("user is ", user, " asset dict is ", asset_dict, self.user_wallet)
         if self.add_sub_asset_helper(asset_dict):
             if user in self.user_wallet:
                 if not self.user_wallet[user]:
@@ -75,6 +74,7 @@ class _user_database:
                 self.update()
                 return True
         return False
+
     def add_sub_asset_helper(self, asset_dict):
         for key, val in asset_dict.items():
             try:
@@ -86,8 +86,8 @@ class _user_database:
 	# Delete item in user wallet
     def delete_item(self, user, coin):
         if user in self.user_wallet:
-            if coin in self.user_wallet[user]:
-                del self.user_wallet[user][coin]
+            if coin in self.user_wallet[user][0]:
+                del self.user_wallet[user][0][coin]
                 self.update()
                 return True
         return False 
@@ -105,13 +105,12 @@ class _user_database:
             with open(self.pwd_db, "r") as pwd:
                 self.user_pwd = json.loads(pwd.read())
         except json.decoder.JSONDecodeError:
-            i = "do_nothing"
+            i = "do nothing"
         try:
             with open(self.w_db, "r") as wallet:
                 self.user_wallet = json.loads(wallet.read())
-            #print(user, self.udb[user], old)
         except json.decoder.JSONDecodeError:
-            i = "do_nothing"
+            i = "do nothing"
  
     # Clear database
     def reset_data(self):

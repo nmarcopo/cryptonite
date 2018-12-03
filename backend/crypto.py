@@ -14,7 +14,6 @@ class CryptoController:
         try:
             payload = cherrypy.request.body.read()
             data = json.loads(payload)
-            print(data)
             temp = data['temp']
             days = int(data['days'])
             if days > 2000:
@@ -49,7 +48,6 @@ class CryptoController:
         payload = cherrypy.request.body.read()
         data = json.loads(payload)
         cryptos = data['crypto']
-        print(data)
         crypto_string = ','.join(cryptos)
         PRICE_URL = BASE_URL + "pricemulti?fsyms={}&tsyms=USD".format(crypto_string)
         try:
