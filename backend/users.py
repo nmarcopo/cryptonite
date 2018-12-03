@@ -104,7 +104,7 @@ class UserController:
         data = json.loads(payload)
         coin = data['coin']
         user = user
-        if self.udb.delete_item(user,coin):
+        if self.udb.delete_item(user, coin):
             output['result'] = 'success'
         else:
             output['result'] = 'error'

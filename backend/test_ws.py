@@ -200,9 +200,6 @@ class TestServer(unittest.TestCase):
 		l.append({})
 		self.assertEqual(resp["wallet"],l)
 
-		
-
-
 	# checks PUT request to USERS_URL + change/ + UID to delete the user if the password is correct
 	def test_user_delete(self):
 		self.reset_data()

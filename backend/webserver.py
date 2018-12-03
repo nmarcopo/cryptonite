@@ -3,7 +3,7 @@
 # final project
 # webserver.py
 
-import cherrypy, asyncio
+import cherrypy, asyncio, time
 from _user_database import _user_database
 from _crypto_api import _crypto_api
 from users import UserController
@@ -21,6 +21,7 @@ def CORS():
 
 class Server:
     def __init__(self):
+        # Initialize api files
         self.udb = _user_database("user_pwd.db", "user_wallet.db")
         self.crypto = _crypto_api()
 
@@ -53,7 +54,7 @@ class Server:
         dispatcher.connect('delete_user', '/users/change/:user', controller=uController,
                             action = 'PUT_DELETE', conditions=dict(method=['PUT'])
                     )
-        dispatcher.connect('delete_item', '/users/change/:user', controller=cController,
+        dispatcher.connect('delete_item', '/users/change/:user', controller=uController,
                             action = 'POST_DELETE', conditions=dict(method=['POST'])
                     )
         # Crypto api controller
@@ -87,7 +88,6 @@ class Server:
         dispatcher.connect('users_delete', '/users/change/:user', controller=optionsController,
                             action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                     ) 
-
         dispatcher.connect('crypto_hot_cold', '/crypto/', controller=optionsController,
                             action = 'OPTIONS', conditions=dict(method=['OPTIONS'])
                     )
@@ -114,17 +114,21 @@ class Server:
         cherrypy.config.update(conf)
         app = cherrypy.tree.mount(None, config=conf)
         cherrypy.quickstart(app)
-
-    def fetch_data(self):
-        print("going to fetch\n\n")
-        self.crypto.fetch_data()
-        print("fetched\n\n")
-
     
+    # function to fetch crypto dat every 300 seconds
+    def fetch_data(self):
+        print("Fetching... ", end="")
+        print(time.ctime()) 
+        self.crypto.fetch_data()
+        print("Fetched! ", end="")
+        print(time.ctime()) 
 
 if __name__ == '__main__':
     cherrypy.tools.CORS = cherrypy.Tool('before_finalize', CORS)
     server = Server()
-    bg = cherrypy.process.plugins.BackgroundTask(60, server.fetch_data)
+    # Initial caching
+    server.fetch_data()
+    # Caching data every 580 seconds
+    bg = cherrypy.process.plugins.BackgroundTask(300, server.fetch_data)
     bg.start()
     server.start_service()

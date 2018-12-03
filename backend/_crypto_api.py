@@ -14,47 +14,8 @@ class _crypto_api:
                 self.cache = json.loads(f.readline().strip())
         except:
             self.cache = {}
-
-    # find_hottest_coldest static version
-    def find_hottest_coldest_static(self, days, topN, mode, dataset):
-        # get top 10 most increased value crypto
-        # calculated by doing open on first day to close on last day
-        # use the static dataset
-        respDict = dataset
-
-        # Extract json response
-        coinDict = {}
-        for key, val in respDict.items():
-            # don't load content if it's a static database
-            resp = val
-            try:
-                cryptoDataDaysAgo = resp['Data'][0]['open']
-            except IndexError:
-                # if the api ran out of free queries, skip that part of the data
-                continue
-            if cryptoDataDaysAgo == 0:
-                continue
-            # calculate the hot measurements
-            cryptoDataToday = resp['Data'][days]['close']
-            hotMeasurement = (cryptoDataToday - cryptoDataDaysAgo) / cryptoDataDaysAgo * 100
-            coinDict[key] = hotMeasurement
-        
-        # Change output depending on top(hot) or low(cold)
-        if mode == "hot":
-            sorted_by_value = sorted(coinDict.items(), key=lambda kv: kv[1], reverse=True)
-        elif mode == "cold":
-            sorted_by_value = sorted(coinDict.items(), key=lambda kv: kv[1], reverse=False)
-        else:
-            print("please type 'hot' or 'cold'")
-            raise Exception
-            return None
-        
-        # Format output json
-        data = {}
-        for item, val in sorted_by_value[0:topN]:
-            data[item] = "{:.2f}%".format(val)
-        return json.dumps(data)
-
+    
+    # Do investment simulation
     async def what_if_investment(self, cryptosAndAmount, dataset=None):
         totalMoneyGained = 0
         crypto_code = []
@@ -134,21 +95,14 @@ class _crypto_api:
             data["breakdown"].append(mydict)
         return json.dumps(data)
 
-    # Constantly cache hot and cold info every 10 mins
-    def fetch_data(self):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        response = loop.run_until_complete(self.find_hottest_coldest_fetch())
-        self.cache = response
-        with open('crypto.dat', "w+") as f:
-            json.dump(response, f)
-    
-    # Find hottest coldest data from cach
+        
+    # Find hottest coldest data from the cache
     def find_hottest_coldest(self, days, topN, mode):
         preloaded = {}
         coinDict = {}
         price_dict = {}
         preloaded = self.cache
+        # load cache and calculate difference depending on the day given, cache has 2000 days data
         for key, val in preloaded.items():
             resp = val
             i = 2000 - days
@@ -160,6 +114,7 @@ class _crypto_api:
             coinDict[key] = hotMeasurement
             price_dict[key] = cryptoDataToday
         
+        # Set mode
         if mode == "hot":
             sorted_by_value = sorted(coinDict.items(), key=lambda kv: kv[1], reverse=True)
         elif mode == "cold":
@@ -174,6 +129,15 @@ class _crypto_api:
         for item, val in sorted_by_value[0:topN]:
             data.append([item, "{:.2f}%".format(val), price_dict[item]])
         return json.dumps(data)
+
+    # Constantly cache hot and cold crypto data every 10 mins
+    def fetch_data(self):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        response = loop.run_until_complete(self.find_hottest_coldest_fetch())
+        with open('crypto.dat', "w+") as f:
+            json.dump(response, f)
+        self.cache = response
     
     # Actual helper async function to fetch data
     async def find_hottest_coldest_fetch(self):
@@ -181,12 +145,50 @@ class _crypto_api:
         loop = asyncio.get_event_loop()
         respDict = {}
         returnDict = {}
-        # call the api from online if no static dataset provided
+        # call the api and store it into data
         for item in self.top15List:
             crypto_hottest_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(item, 2000)
             respDict[item] = await loop.run_in_executor(None, requests.get, crypto_hottest_url)
-            
+        
+        # Read data from async await
         for key, val in respDict.items():
             resp = json.loads(val.content)
             returnDict[key] = resp 
         return returnDict
+
+    # find_hottest_coldest static version
+    def find_hottest_coldest_static(self, days, topN, mode, dataset):
+        # get top 10 most increased value crypto
+        # calculated by doing open on first day to close on last day
+        # use the static dataset
+        respDict = dataset
+
+        # Extract json response
+        coinDict = {}
+        for key, val in respDict.items():
+            # don't load content b/c it's a static database
+            resp = val
+            cryptoDataDaysAgo = resp['Data'][0]['open']
+            if cryptoDataDaysAgo == 0:
+                continue
+            # calculate the hot measurements
+            cryptoDataToday = resp['Data'][days]['close']
+            hotMeasurement = (cryptoDataToday - cryptoDataDaysAgo) / cryptoDataDaysAgo * 100
+            coinDict[key] = hotMeasurement
+        
+        # Change output depending on top(hot) or low(cold)
+        if mode == "hot":
+            sorted_by_value = sorted(coinDict.items(), key=lambda kv: kv[1], reverse=True)
+        elif mode == "cold":
+            sorted_by_value = sorted(coinDict.items(), key=lambda kv: kv[1], reverse=False)
+        else:
+            print("please type 'hot' or 'cold'")
+            raise Exception
+            return None
+        
+        # Format output json
+        data = {}
+        for item, val in sorted_by_value[0:topN]:
+            data[item] = "{:.2f}%".format(val)
+        return json.dumps(data)
+
