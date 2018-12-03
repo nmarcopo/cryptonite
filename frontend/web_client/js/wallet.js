@@ -150,6 +150,9 @@ function getWalletContents(uid) {
 							<span class="input-group-text" id="cryptoSymbol">` + key + `</span>
 						</td>
 						<td>
+							<span class="input-group-text">` + "$" + amountDict[key].toFixed(2) + `</span>
+						</td>
+						<td>
 							<span class="input-group-text">` + "$" + dAmount.toFixed(2) + `</span>
 						</td>
 						<td>
