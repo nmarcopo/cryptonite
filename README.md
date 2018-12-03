@@ -104,3 +104,4 @@ The clients can be tested by multiple ways:
 * Add incorrect/out of the range values to see if the client and the server handles it correctly.
 * The client also checks if the server response always gives back result: success.
 * The client can also be manually checked with current crypto currency price available widely in the net.
+* Smartwatch client can be tested by pressing 'hot' and 'cold' buttons and comparing the result to the actual data.
