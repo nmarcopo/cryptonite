@@ -92,15 +92,15 @@ Explicit steps:
 ### How to view the Web Client
     1. Make sure the server is running properly following steps above.
     2. Go to student04.cse.nd.edu/nmarcopo/programmingParadigmsProject/frontend/web_client in a web browser
-### How to run the Watch Client
+### How to run the Watch Client 
     1. Download the entire CryptoWatch directory.
     2. Open the Project in Android Studio.
     3. Download the Project onto a smartWatch device.
     4. Make sure the server is running properly.
     5. Start and run application as you would with a normal application.
     
-### How to test this client:
+### How to test the clients:
 The client can be tested by multiple ways:
-    1. Add incorrect/out of the range values to see if the client and the server handles it correctly.
-    2. The client also checks if the server response always gives back result: success.
-    3. The client can also be manually checked with current crypto currency price available widely in the net.
+* Add incorrect/out of the range values to see if the client and the server handles it correctly.
+* The client also checks if the server response always gives back result: success.
+* The client can also be manually checked with current crypto currency price available widely in the net.
