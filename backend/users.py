@@ -15,9 +15,7 @@ class UserController:
             output = {'result':'success', 'id': user}
             coin_list = []
             if self.udb.user_wallet[user]:
-                for item in self.udb.user_wallet[user]:
-                    coin_list.append(item)
-                output['wallet'] = coin_list
+                output['wallet'] = self.udb.user_wallet[user]
         else:
             output = {'result':'error'}
         return json.dumps(output)
