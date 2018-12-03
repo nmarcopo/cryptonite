@@ -47,6 +47,7 @@ class CryptoController:
         payload = cherrypy.request.body.read()
         data = json.loads(payload)
         cryptos = data['crypto']
+        print(data)
         crypto_string = ','.join(cryptos)
         PRICE_URL = BASE_URL + "pricemulti?fsyms={}&tsyms=USD".format(crypto_string)
         try:

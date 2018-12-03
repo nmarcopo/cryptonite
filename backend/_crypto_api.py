@@ -66,7 +66,7 @@ class _crypto_api:
             for crypto_dict in cryptosAndAmount:
                 for crypto, args in crypto_dict.items():
                     days = int(args[0])
-                    amount = int(args[1])
+                    amount = float(args[1])
                     all_days.append([days, amount, crypto])
                     crypto_code.append(crypto)
                     crypto_choice_url = self.apiBaseURL + "histoday?fsym={}&tsym=USD&limit={}".format(crypto, days)
@@ -75,7 +75,7 @@ class _crypto_api:
             awaitDict = dataset
             for crypto_dict in cryptosAndAmount:
                 for crypto, args in crypto_dict.items():
-                    all_days.append([int(args[0]), int(args[1]), crypto])
+                    all_days.append([int(args[0]), float(args[1]), crypto])
                     crypto_code.append(crypto)
 
         # Read json response if there is no preloaded dataset
