@@ -50,6 +50,9 @@ def start_service():
     dispatcher.connect('delete_user', '/users/change/:user', controller=uController,
                         action = 'PUT_DELETE', conditions=dict(method=['PUT'])
                 )
+    dispatcher.connect('delete_item', '/users/change/:user', controller=cController,
+                        action = 'POST_DELETE', conditions=dict(method=['POST'])
+                )
     # Crypto api controller
     dispatcher.connect('get_hottest', '/crypto/', controller=cController,
                         action = 'POST_TOPN', conditions=dict(method=['POST'])
