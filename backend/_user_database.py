@@ -64,15 +64,25 @@ class _user_database:
     
     # Manipulate user wallet
     def add_sub_asset(self, user, asset_dict):
-        if user in self.user_wallet:
-            if not self.user_wallet[user]:
-                self.user_wallet[user].append(asset_dict)
-            else:
-                merged_dict = {k: float(self.user_wallet[user][0].get(k, 0)) + float(asset_dict.get(k, 0)) for k in set(self.user_wallet[user][0]) | set(asset_dict)}
-                self.user_wallet[user][0] = merged_dict
-            self.update()
-            return True
+        #print("user is ", user, " asset dict is ", asset_dict, self.user_wallet)
+        if self.add_sub_asset_helper(asset_dict):
+            if user in self.user_wallet:
+                if not self.user_wallet[user]:
+                    self.user_wallet[user].append(asset_dict)
+                else:
+                    merged_dict = {k: self.user_wallet[user][0].get(k, 0) + asset_dict.get(k, 0) for k in set(self.user_wallet[user][0]) | set(asset_dict)}
+                    self.user_wallet[user][0] = merged_dict
+                self.update()
+                return True
         return False
+
+    def add_sub_asset_helper(self, asset_dict):
+        for key, val in asset_dict.items():
+            try:
+                val = float(val)
+            except ValueError:
+                return False
+        return True
     
     # Write to the database
     def update(self):
