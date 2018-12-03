@@ -108,6 +108,6 @@ class UserController:
         user = user
         if self.udb.delete_item(user,coin):
             output['result'] = 'success'
-        except:
+        else:
             output['result'] = 'error'
         return json.dumps(output)

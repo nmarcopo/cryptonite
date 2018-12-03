@@ -9,7 +9,12 @@ class _crypto_api:
     def __init__(self):
         self.apiBaseURL = "https://min-api.cryptocompare.com/data/"
         self.top15List = ["BTC","ETH","XRP","BCH","EOS","XLM","LTC","ADA","XMR","USDT","TRX","DASH","IOTA","BSV","XEM"]
-    
+        try:
+            with open("crypto.dat") as f:
+                self.cache = json.loads(f.readline().strip())
+        except:
+            self.cache = {}
+
     # find_hottest_coldest static version
     def find_hottest_coldest_static(self, days, topN, mode, dataset):
         # get top 10 most increased value crypto
@@ -134,6 +139,7 @@ class _crypto_api:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         response = loop.run_until_complete(self.find_hottest_coldest_fetch())
+        self.cache = response
         with open('crypto.dat', "w+") as f:
             json.dump(response, f)
     
@@ -142,10 +148,7 @@ class _crypto_api:
         preloaded = {}
         coinDict = {}
         price_dict = {}
-        with open('crypto.dat') as f:
-            data = f.readline().strip()
-            preloaded = json.loads(data)
-        
+        preloaded = self.cache
         for key, val in preloaded.items():
             resp = val
             i = 2000 - days

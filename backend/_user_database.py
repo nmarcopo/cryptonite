@@ -75,7 +75,14 @@ class _user_database:
                 self.update()
                 return True
         return False
-    
+    def add_sub_asset_helper(self, asset_dict):
+        for key, val in asset_dict.items():
+            try:
+                val = float(val)
+            except ValueError:
+                return False
+        return True 
+
 	# Delete item in user wallet
     def delete_item(self, user, coin):
         if user in self.user_wallet:
@@ -83,15 +90,7 @@ class _user_database:
                 del self.user_wallet[user][coin]
                 self.update()
                 return True
-        return False
-
-    def add_sub_asset_helper(self, asset_dict):
-        for key, val in asset_dict.items():
-            try:
-                val = float(val)
-            except ValueError:
-                return False
-        return True
+        return False 
     
     # Write to the database
     def update(self):
