@@ -117,8 +117,6 @@ function getWalletContents(uid) {
 			// give success message
 			walletContentsResp = JSON.parse(xhr_getWalletContents.responseText);
 			var container = document.getElementById("dynamicallyAddCryptoToWallet");
-
-			console.log("does the wallet exist: " + walletContentsResp.hasOwnProperty("wallet"));
 			if (!walletContentsResp.hasOwnProperty("wallet") || Object.keys(walletContentsResp["wallet"][0]).length == 0) {
 				createNotification("info", container.parentNode.parentNode, "Looks like you haven't added anything to your wallet yet. Add some above!");
 				return;

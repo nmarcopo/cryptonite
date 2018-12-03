@@ -42,17 +42,14 @@ function signUpSubmit() {
         xhr_putNewUser.open("POST", 'http://student04.cse.nd.edu:52109/users/', true);
         xhr_putNewUser.onload = function (e) {
             responseDict = JSON.parse(xhr_putNewUser.responseText);
-            console.log(xhr_putNewUser.responseText);
             if (responseDict['result'] == 'success') {
                 // give success message, make sure user can't immediately request another username
-                console.log("success");
                 uidNode.setAttribute("readonly", '""');
                 passNode.setAttribute("readonly", '""');
                 passConfNode.setAttribute("readonly", '""');
                 createNotification("success", loginContainer, "Well Done! You successfully created an account. Please close this window.");
             } else {
                 // fails when there is already an existing user
-                console.log('failure');
                 createNotification("danger", loginContainer, "Oh snap! Username already exists. Try logging in, or creating a new user.");
             }
         }
@@ -93,10 +90,8 @@ function logInSubmit() {
         xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/', true);
         xhr_putNewUser.onload = function (e) {
             responseDict = JSON.parse(xhr_putNewUser.responseText);
-            console.log(xhr_putNewUser.responseText);
             if (responseDict['result'] == 'success') {
                 // give success message, make sure user can't immediately request another username
-                console.log("success");
                 uidNode.setAttribute("readonly", '""');
                 passNode.setAttribute("readonly", '""');
                 createNotification("success", loginContainer, "Well Done! You successfully logged in.");
@@ -107,7 +102,6 @@ function logInSubmit() {
 
             } else {
                 // fails when there is already an existing user
-                console.log('failure');
                 createNotification("danger", loginContainer, "Oh snap! Your information wasn't correct.");
             }
         }
