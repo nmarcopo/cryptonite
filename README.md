@@ -79,3 +79,10 @@ Explicit steps:
 2. Be in the "backend" directory of our submission  
 3. run the command `python3.6 webserver.py`     
 4. To test: Run the command `python3.6 test_ws.py`  
+
+## For December 3rd: Web Client/Watch Client
+### How to run the Watch Client
+    1. Download the entire CryptoWatch directory.
+    2. Open the Project in Android Studio.
+    3. Download the Project onto a smartWatch device.
+    4. Start and run application as you would with a normal app.
