@@ -49,7 +49,7 @@ function addField() {
 	// calculates the amount of bitcoins from how much money user put in
 	var asset = {}
 	// gets payload for POST request to add to user wallet
-	asset[cryptoField] = costField;
+	asset[cryptoField] = Number(costField);
 	var postRequest = {
 		'asset': asset
 	}
