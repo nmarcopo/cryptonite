@@ -42,8 +42,8 @@ The output will tell you if the API passed the tests.
 |--------------------|-------------------------------|------------------------------|---------------------------------|--------|
 | /users/            |                               | Check password               | Make new id                     |        |
 | /users/:uid        | Get user wallet info          | Change password              | Add new data                    |        |
-| /users/change/     |                               | Change ID                    | Delete coin from user wallet    |        |
-| /users/change/:uid |                               | Delete user                  |                                 |        |
+| /users/change/     |                               | Change ID                    |                                 |        |
+| /users/change/:uid |                               | Delete user                  | Delete coin from user wallet    |        |
 | /crypto/           |                               | Get current crypto price     | find hottest and coldest crypto |        |
 | /crypto/whatif/    |                               | what if investment simulator |                                 |        |
 | /crypto/:temp      | Get top5 hottest / coldest    |                              |                                 |        |
