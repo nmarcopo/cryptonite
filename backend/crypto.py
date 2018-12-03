@@ -17,6 +17,8 @@ class CryptoController:
             print(data)
             temp = data['temp']
             days = int(data['days'])
+            if days > 2000:
+                raise ValueError
             count = data['count']
             static = data['static']
             if static == 'false':
@@ -28,7 +30,6 @@ class CryptoController:
                 with open('hotcold.dat') as f:
                     data = f.readline().strip()
                     preloaded = json.loads(data)
-            if static:
                 response = self.crypto.find_hottest_coldest_static(days, count, temp, preloaded)
             else:
                 response = self.crypto.find_hottest_coldest(days, count, temp)
@@ -36,7 +37,8 @@ class CryptoController:
             output['result'] = 'success'
             output['crypto'] = crypto_data
             output['mode'] = temp
-        except:
+        except Exception as e:
+            print("Exception is {}".format(e))
             output['result'] = 'error'
         return json.dumps(output)
 
@@ -56,7 +58,8 @@ class CryptoController:
             for crypto in resp:
                 output[crypto] = resp[crypto]['USD']
             output['result'] = 'success'
-        except:
+        except Exception as e:
+            print("Exception is {}".format(e))
             output['result'] = 'error'
         return json.dumps(output)
  
@@ -79,6 +82,7 @@ class CryptoController:
             output = json.loads(response)
             output['result'] = 'success'
         except Exception as e:
+            print("Exception is {}".format(e))
             output['result'] = 'error'
         return json.dumps(output)
     
@@ -94,6 +98,7 @@ class CryptoController:
             data = json.loads(response)
             output['result'] = 'success'
             output['data'] = data
-        except:
+        except Exception as e:
+            print("Exception is {}".format(e))
             output['result'] = 'error'
         return json.dumps(output)
