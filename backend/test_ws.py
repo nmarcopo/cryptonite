@@ -158,6 +158,50 @@ class TestServer(unittest.TestCase):
 		l = []
 		l.append(assetdict)
 		self.assertEqual(resp["wallet"],l)
+	
+	# checks POST request to add a cryptocurrency wallet to an existing user in database
+	def test_users_wallet_post(self):
+		self.reset_data()
+		# creates a new user in database
+		u = {}
+		u["user"] = "Andy"
+		u["pwd"] = "animep"
+		r = requests.post(self.USERS_URL, data = json.dumps(u))
+		self.assertTrue(self.is_json(r.content.decode()))
+		resp = json.loads(r.content.decode())
+		self.assertEqual(resp["result"],"success")
+		
+		w = {}
+		assetdict={}
+		assetdict["BTC"] = 6
+		
+		# adds wallet with POST request to EXISTANT user (expects success)
+		w["asset"]=assetdict
+		URL = "Andy"
+		r = requests.post(self.USERS_URL + URL, data = json.dumps(w))
+		self.assertTrue(self.is_json(r.content.decode()))
+		resp = json.loads(r.content.decode())
+		self.assertEqual(resp["result"],"success")
+
+		# deletes an item in the wallet with a POST request to EXISTANT user
+		d = {}
+		d["coin"] = "BTC"
+		r = requests.post(self.USERS_URL+"change/"+URL, data = json.dumps(d))
+		self.assertTrue(self.is_json(r.content.decode()))
+		resp = json.loads(r.content.decode())
+		self.assertEqual(resp["result"],"success")
+		
+		# checks values of wallet with expected response
+		r = requests.get(self.USERS_URL + URL) 
+		self.assertTrue(self.is_json(r.content.decode()))
+		resp = json.loads(r.content.decode())
+		self.assertEqual(resp["result"],"success")
+		l = []
+		l.append({})
+		self.assertEqual(resp["wallet"],l)
+
+		
+
 
 	# checks PUT request to USERS_URL + change/ + UID to delete the user if the password is correct
 	def test_user_delete(self):
