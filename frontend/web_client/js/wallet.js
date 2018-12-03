@@ -41,9 +41,9 @@ function addField() {
 	var cryptoField = document.getElementById("cryptoInput").value.toUpperCase();
 	var costField = document.getElementById("costInput").value;
 	// wrong input
-	if (cryptoField == "" || Number(costField) < 0.01) {
+	if (cryptoField == "" || Number(costField) < 0.000001) {
 		var nContainer = document.getElementById("notifContainer");
-		createNotification("danger", nContainer, "Double check input fields. You need to add at least $0.01 of any crypto.");
+		createNotification("danger", nContainer, "Double check input fields. You need to add at least 0.000001 of any crypto.");
 		return;
 	}
 	// calculates the amount of bitcoins from how much money user put in
@@ -126,7 +126,7 @@ function getWalletContents(uid) {
 							<span class="input-group-text">` + "$" + dAmount.toFixed(2) + `</span>
 						</td>
 						<td>
-							<span class="input-group-text">` + Number(value).toFixed(2) + `</span>
+							<span class="input-group-text">` + value + `</span>
 						</td>
 						<td>
 							<div class="input-group-append">
