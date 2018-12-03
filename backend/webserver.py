@@ -128,7 +128,7 @@ if __name__ == '__main__':
     server = Server()
     # Initial caching
     server.fetch_data()
-    # Caching data every 580 seconds
-    bg = cherrypy.process.plugins.BackgroundTask(300, server.fetch_data)
+    # Caching data every 150 seconds
+    bg = cherrypy.process.plugins.BackgroundTask(150, server.fetch_data)
     bg.start()
     server.start_service()
