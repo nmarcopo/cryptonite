@@ -98,3 +98,16 @@ class UserController:
         else:
             output['result'] = 'error'
         return json.dumps(output)
+
+    # delete an item from the user's wallet
+    def POST_DELETE(self, user):
+        output = {}
+        payload = cherrypy.request.body.read()
+        data = json.loads(payload)
+        coin = data['coin']
+        user = user
+        if self.udb.delete_item(user,coin):
+            output['result'] = 'success'
+        except:
+            output['result'] = 'error'
+        return json.dumps(output)
