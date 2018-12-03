@@ -46,55 +46,27 @@ function addField() {
 		createNotification("danger", nContainer, "Double check input fields. You need to add at least $0.01 of any crypto.");
 		return;
 	}
-	// formats input for request
-	var cryptoL = [cryptoField];
-	var putRequest = {
-		'crypto': cryptoL
-	};
-
-	// PUT request to get price of Crypto
-	var xhr_findPrice = new XMLHttpRequest();
-	xhr_findPrice.open("PUT", 'http://student04.cse.nd.edu:52109/crypto/', true);
-	// function for when request is called
-	xhr_findPrice.onload = function (e) {
-		responseDict = JSON.parse(xhr_findPrice.responseText);
-		// if PUT request for crypto price works
-		if (responseDict['result'] == 'success') {
-			// grabs returned crypto price
-			var cryptoPrice = responseDict[cryptoField];
-			// calculates the amount of bitcoins from how much money user put in
-			var amount = Number(costField) / Number(cryptoPrice);
-			var asset = {}
-			// gets payload for POST request to add to user wallet
-			asset[cryptoField] = amount;
-			var postRequest = {
-				'asset': asset
-			}
-			// POST request to add to user wallet
-			var xhr_walletAdd = new XMLHttpRequest();
-			var uid = sessionStorage.getItem("cryptoniteLogIn");
-			xhr_walletAdd.open("POST", 'http://student04.cse.nd.edu:52109/users/' + uid, true);
-			xhr_walletAdd.onload = function (f) {
-				responseDict = JSON.parse(xhr_walletAdd.responseText);
-				// if failure notify
-				if (responseDict['result'] != 'success') {
-					var nContainer = document.getElementById("notifContainer");
-					createNotification("danger", nContainer, "Could not add to wallet.");
-				}
-				getWalletContents(sessionStorage.getItem("cryptoniteLogIn"));
-			}
-			xhr_walletAdd.send(JSON.stringify(postRequest));
-		} 
-		// if wrong, notifies user
-		else {
-			var nContainer = document.getElementById("notifContainer");
-			createNotification("danger", nContainer, "Double check input fields.");
-		}
+	// calculates the amount of bitcoins from how much money user put in
+	var asset = {}
+	// gets payload for POST request to add to user wallet
+	asset[cryptoField] = amount;
+	var postRequest = {
+		'asset': asset
 	}
-	// PUT request is called
-	xhr_findPrice.send(JSON.stringify(putRequest));
-
-
+	// POST request to add to user wallet
+	var xhr_walletAdd = new XMLHttpRequest();
+	var uid = sessionStorage.getItem("cryptoniteLogIn");
+	xhr_walletAdd.open("POST", 'http://student04.cse.nd.edu:52109/users/' + uid, true);
+	xhr_walletAdd.onload = function (f) {
+		responseDict = JSON.parse(xhr_walletAdd.responseText);
+		// if failure notify
+		if (responseDict['result'] != 'success') {
+			var nContainer = document.getElementById("notifContainer");
+			createNotification("danger", nContainer, "Could not add to wallet.");
+		}
+		getWalletContents(sessionStorage.getItem("cryptoniteLogIn"));
+	}
+	xhr_walletAdd.send(JSON.stringify(postRequest));
 }
 
 // Get contents of user's wallet
@@ -154,6 +126,9 @@ function getWalletContents(uid) {
 						</td>
 						<td>
 							<span class="input-group-text">` + "$" + dAmount.toFixed(2) + `</span>
+						</td>
+						<td>
+							<span class="input-group-text">` + Number(value).toFixed(2) + `</span>
 						</td>
 						<td>
 							<div class="input-group-append">
