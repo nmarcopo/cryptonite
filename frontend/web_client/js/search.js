@@ -17,10 +17,10 @@ function discover() {
     }
 
     if(selectedMode == 'Hottest'){
-        selectedMode = 'hot'
+        selectedMode = "hot"
     }
     else{
-        selectedMode = 'cold'
+        selectedMode = "cold"
     }
 
     var postRequest = {
@@ -34,7 +34,7 @@ function discover() {
     xhr_discover.open("POST", 'http://student04.cse.nd.edu:52109/crypto/', true);
     xhr_discover.onload = function (e) {
         responseDict = JSON.parse(xhr_discover.responseText);
-        if (responseDict['result'] == 'success') {
+		if (responseDict['result'] == 'success') {
             // give success message
 			populate(responseDict['crypto'])	
 		} 
@@ -57,18 +57,20 @@ function populate(crypto_data){
 				<th scope="col">Results:</th>
 				<th scope="col"></th>
 				<th scope="col"></th>
+				<th scope="col"></th>
 			</tr>
 		</thead>`
 	var i = 0;
-	for (Array a: crypto_data) {
+	for (var a = 0; a < crypto_data.length; a++) {
 	  i += 1;
-	  var val = Number(a[1].substring(0, a[1].length -1));
+	  var val = Number(crypto_data[a][1].substring(0, crypto_data[a][1].length -1));
 	  if(val >= 0){
 	  	newTableElement += `<tbody>
 			<tr class="table-success">
 				<th scope="row">`+i+`.</th>
-				<td>`+a[0]+`</td>
-				<td>`+a[1]+`</td>
+				<td>`+crypto_data[a][0]+`</td>
+				<td>`+"$"+crypto_data[a][2]+`</td>
+				<td>`+crypto_data[a][1]+`</td>
 			</tr>
 		</tbody>`;
 	  }
@@ -76,8 +78,9 @@ function populate(crypto_data){
 	  	newTableElement += `<tbody>
 			<tr class="table-danger">
 				<th scope="row">`+i+`.</th>
-				<td>`+a[0]+`</td>
-				<td>`+a[1]+`</td>
+				<td>`+crypto_data[a][0]+`</td>
+				<td>`+"$"+crypto_data[a][2]+`</td>
+				<td>`+crypto_data[a][1]+`</td>
 			</tr>
 		</tbody>`;
 	  }
