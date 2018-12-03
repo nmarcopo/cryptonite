@@ -46,7 +46,7 @@ The output will tell you if the API passed the tests.
 | /users/change/:uid |                               | Delete user                  | Delete coin from user wallet    |        |
 | /crypto/           |                               | Get current crypto price     | find hottest and coldest crypto |        |
 | /crypto/whatif/    |                               | what if investment simulator |                                 |        |
-| /crypto/:temp      | Get top5 hottest / coldest    |                              |                                 |        |
+| /crypto/:temp      | Get top 5 hottest / coldest   |                              |                                 |        |
 | /reset/            | Reset user db (test purposes) |                              |                                 |        |
 
 - PUT to /users/
@@ -89,8 +89,12 @@ Explicit steps:
 2. Be in the "backend" directory of our submission
 3. run the command `python3.6 webserver.py`
 4. To test: Run the command `python3.6 test_ws.py`
+### How to view the Web Client
+    1. Make sure the server is running properly following steps above.
+    2. Go to student04.cse.nd.edu/nmarcopo/programmingParadigmsProject/frontend/web_client in a web browser
 ### How to run the Watch Client
     1. Download the entire CryptoWatch directory.
     2. Open the Project in Android Studio.
     3. Download the Project onto a smartWatch device.
-    4. Start and run application as you would with a normal app.
+    4. Make sure the server is running properly.
+    5. Start and run application as you would with a normal application.
