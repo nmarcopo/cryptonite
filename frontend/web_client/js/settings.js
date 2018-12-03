@@ -1,5 +1,4 @@
 $(function () {
-    console.log("function loaded");
     document.getElementById("submitEmailChangeButton").addEventListener("click", changeEmail);
     document.getElementById("submitPasswordChangeButton").addEventListener("click", changePassword);
     document.getElementById("deleteUser").addEventListener("click", deleteUser);
@@ -32,17 +31,12 @@ function changeEmail() {
         xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/change/', true);
         xhr_putNewUser.onload = function (e) {
             responseDict = JSON.parse(xhr_putNewUser.responseText);
-            console.log(xhr_putNewUser.responseText);
             if (responseDict['result'] == 'success') {
                 // give success message
-                console.log("success");
-                console.log(xhr_putNewUser.responseText);
-
                 createNotification("success", loginContainer, "Well Done! You successfully changed your email address to " + newEmail + ". ");
                 sessionStorage.setItem("cryptoniteLogIn", newEmail);
             } else {
                 // fails when there is already an existing user
-                console.log('failure');
                 createNotification("danger", loginContainer, "Oh snap! That current username isn't quite right. Try logging in, or creating a new user.");
             }
         }
@@ -61,8 +55,6 @@ function changePassword() {
 
     // Check if new passwords match
     if (newPassword == newPasswordConf && newPassword != "" && (currentEmail != null || currentEmail != "null")) {
-        console.log(currentEmail);
-
         // Send PUT request to create a new password
         var putRequest = {
             'pwd': currentPassword,
@@ -72,16 +64,11 @@ function changePassword() {
         xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/' + currentEmail, true);
         xhr_putNewUser.onload = function (e) {
             responseDict = JSON.parse(xhr_putNewUser.responseText);
-            console.log(xhr_putNewUser.responseText);
             if (responseDict['result'] == 'success') {
                 // give success message
-                console.log("success");
-                console.log(xhr_putNewUser.responseText);
-
                 createNotification("success", loginContainer, "Well Done! You successfully changed your password");
             } else {
                 // fails when there is already an existing user
-                console.log('failure');
                 createNotification("danger", loginContainer, "Oh snap! Something went wrong, try again.");
             }
         }
@@ -108,11 +95,8 @@ function deleteUser() {
             xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/change/' + currentEmail, true);
             xhr_putNewUser.onload = function (e) {
                 responseDict = JSON.parse(xhr_putNewUser.responseText);
-                console.log(xhr_putNewUser.responseText);
                 if (responseDict['result'] == 'success') {
                     // give success message
-                    console.log("success");
-                    console.log(xhr_putNewUser.responseText);
                     createNotification("success", loginContainer, "You successfully deleted your account. Now returning to our login screen.");
                     sessionStorage.setItem("cryptoniteLogIn", null);
                     setTimeout(() => {
@@ -120,7 +104,6 @@ function deleteUser() {
                     }, 4000);
                 } else {
                     // fails when there is already an existing user
-                    console.log('failure');
                     createNotification("danger", loginContainer, "Oh snap! Something went wrong, try again.");
                 }
             }
