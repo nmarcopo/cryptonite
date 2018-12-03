@@ -41,6 +41,7 @@ function addField() {
 	var cryptoField = document.getElementById("cryptoInput").value.toUpperCase();
 	var costField = document.getElementById("costInput").value;
 	// wrong input
+	console.log(Number(costField))
 	if (Number(costField) < 0.01) {
 		var nContainer = document.getElementById("notifContainer");
 		createNotification("danger", nContainer, "Double check input fields. You need to add at least $0.01 of any crypto.");
@@ -49,7 +50,7 @@ function addField() {
 	// calculates the amount of bitcoins from how much money user put in
 	var asset = {}
 	// gets payload for POST request to add to user wallet
-	asset[cryptoField] = String(costField);
+	asset[cryptoField] = costField;
 	var postRequest = {
 		'asset': asset
 	}
