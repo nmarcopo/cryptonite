@@ -1,4 +1,4 @@
-# Cryptonite, the Crypto Currency Forecaster
+# Cryptonite, the essential Crypto Currency Assistant
 
 [Link to GitHub repository for reference](https://github.com/nmarcopo/programmingParadigmsProject)
 
@@ -46,7 +46,7 @@ The output will tell you if the API passed the tests.
 | /users/change/:uid |                               | Delete user                  | Delete coin from user wallet    |        |
 | /crypto/           |                               | Get current crypto price     | find hottest and coldest crypto |        |
 | /crypto/whatif/    |                               | what if investment simulator |                                 |        |
-| /crypto/:temp      | Get top5 hottest / coldest    |                              |                                 |        |
+| /crypto/:temp      | Get top 5 hottest / coldest   |                              |                                 |        |
 | /reset/            | Reset user db (test purposes) |                              |                                 |        |
 
 - PUT to /users/
@@ -98,3 +98,9 @@ Explicit steps:
     3. Download the Project onto a smartWatch device.
     4. Make sure the server is running properly.
     5. Start and run application as you would with a normal application.
+    
+### How to test this client:
+The client can be tested by multiple ways:
+    1. Add incorrect/out of the range values to see if the client and the server handles it correctly.
+    2. The client also checks if the server response always gives back result: success.
+    3. The client can also be manually checked with current crypto currency price available widely in the net.

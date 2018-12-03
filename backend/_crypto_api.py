@@ -11,9 +11,14 @@ class _crypto_api:
         self.top15List = ["BTC","ETH","XRP","BCH","EOS","XLM","LTC","ADA","XMR","USDT","TRX","DASH","IOTA","BSV","XEM"]
         try:
             with open("crypto.dat") as f:
-                self.cache = json.loads(f.readline().strip())
+                self.histcache = json.loads(f.readline().strip())
         except:
-            self.cache = {}
+            self.histcache = {}
+        try:
+            with open("crypto_price.dat") as f:
+                self.pricecache = json.loads(f.readline().strip())
+        except:
+            self.pricecache = {}
     
     # Do investment simulation
     async def what_if_investment(self, cryptosAndAmount, dataset=None):
@@ -25,6 +30,7 @@ class _crypto_api:
         awaitList = []
         awaitDict = {}
         return_days = []
+        current_price = self.pricecache
         # If there is no pre-loaded dataset
         if not dataset:
             loop = asyncio.get_event_loop()
@@ -52,7 +58,7 @@ class _crypto_api:
                 cryptoDataDaysAgo = resp['Data'][0]['open']
                 if cryptoDataDaysAgo == 0:
                     continue
-                cryptoDataToday = resp['Data'][args[0]]['close']
+                cryptoDataToday = current_price[key]
                 # calculate amounts
                 amount = args[1]
                 investment.append(cryptoDataDaysAgo * amount)
@@ -95,13 +101,15 @@ class _crypto_api:
             data["breakdown"].append(mydict)
         return json.dumps(data)
 
-        
     # Find hottest coldest data from the cache
     def find_hottest_coldest(self, days, topN, mode):
         preloaded = {}
         coinDict = {}
         price_dict = {}
-        preloaded = self.cache
+        preloaded = self.histcache
+        # Fetch current price info
+        current_price = self.pricecache
+
         # load cache and calculate difference depending on the day given, cache has 2000 days data
         for key, val in preloaded.items():
             resp = val
@@ -109,7 +117,7 @@ class _crypto_api:
             while resp['Data'][i]['open'] == 0:
                 i += 1
             cryptoDataDaysAgo = resp['Data'][i]['open']
-            cryptoDataToday = resp['Data'][1999]['close']
+            cryptoDataToday = current_price[key]
             hotMeasurement = (cryptoDataToday - cryptoDataDaysAgo) / cryptoDataDaysAgo * 100
             coinDict[key] = hotMeasurement
             price_dict[key] = cryptoDataToday
@@ -130,16 +138,35 @@ class _crypto_api:
             data.append([item, "{:.2f}%".format(val), price_dict[item]])
         return json.dumps(data)
 
-    # Constantly cache hot and cold crypto data every 10 mins
-    def fetch_data(self):
+    # Constantly cache historic data every 10 mins
+    def fetch_hist_data(self):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        response = loop.run_until_complete(self.find_hottest_coldest_fetch())
+        response_hist = loop.run_until_complete(self.find_hottest_coldest_fetch())
         with open('crypto.dat', "w+") as f:
-            json.dump(response, f)
-        self.cache = response
+            json.dump(response_hist, f)
+        self.histcache = response_hist
     
-    # Actual helper async function to fetch data
+    # Contantly cache price data every 8 seconds
+    def fetch_price_data(self):
+        response_price = self.find_current_price()
+        with open('crypto_price.dat', "w+") as f:
+            json.dump(response_price, f)
+        self.pricecache = response_price
+    
+    # Helper function to cache current price
+    def find_current_price(self):
+        BASE_URL = "https://min-api.cryptocompare.com/data/"
+        top15str = ",".join(self.top15List)
+        PRICE_URL = BASE_URL + "pricemulti?fsyms={}&tsyms=USD".format(top15str)
+        price_dict = {}
+        r = requests.get(PRICE_URL)
+        resp = r.json()
+        for crypto in resp:
+            price_dict[crypto] = resp[crypto]['USD']
+        return price_dict
+    
+    # Helper async function to fetch historic data
     async def find_hottest_coldest_fetch(self):
         # calculated by doing open on first day to close on last day
         loop = asyncio.get_event_loop()

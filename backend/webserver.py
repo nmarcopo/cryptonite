@@ -115,11 +115,19 @@ class Server:
         app = cherrypy.tree.mount(None, config=conf)
         cherrypy.quickstart(app)
     
-    # function to fetch crypto dat every 300 seconds
-    def fetch_data(self):
-        print("Fetching... ", end="")
+    # function to fetch historic crypto data every 150 seconds
+    def fetch_hist_data(self):
+        print("Fetching historical data... ", end="")
         print(time.ctime()) 
-        self.crypto.fetch_data()
+        self.crypto.fetch_hist_data()
+        print("Fetched! ", end="")
+        print(time.ctime()) 
+
+    # function to fetch crypto price data every 8 seconds
+    def fetch_price_data(self):
+        print("Fetching price data... ", end="")
+        print(time.ctime()) 
+        self.crypto.fetch_price_data()
         print("Fetched! ", end="")
         print(time.ctime()) 
 
@@ -127,8 +135,11 @@ if __name__ == '__main__':
     cherrypy.tools.CORS = cherrypy.Tool('before_finalize', CORS)
     server = Server()
     # Initial caching
-    server.fetch_data()
-    # Caching data every 150 seconds
-    bg = cherrypy.process.plugins.BackgroundTask(150, server.fetch_data)
-    bg.start()
+    server.fetch_hist_data()
+    server.fetch_price_data()
+    # Cache data
+    bg_hist = cherrypy.process.plugins.BackgroundTask(150, server.fetch_hist_data)
+    bg_price = cherrypy.process.plugins.BackgroundTask(8, server.fetch_price_data)
+    bg_hist.start()
+    bg_price.start()
     server.start_service()
