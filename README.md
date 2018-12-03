@@ -42,7 +42,7 @@ The output will tell you if the API passed the tests.
 |--------------------|-------------------------------|------------------------------|---------------------------------|--------|
 | /users/            |                               | Check password               | Make new id                     |        |
 | /users/:uid        | Get user wallet info          | Change password              | Add new data                    |        |
-| /users/change/     |                               | Change ID                    |                                 |        |
+| /users/change/     |                               | Change ID                    | Delete coin from user wallet    |        |
 | /users/change/:uid |                               | Delete user                  |                                 |        |
 | /crypto/           |                               | Get current crypto price     | find hottest and coldest crypto |        |
 | /crypto/whatif/    |                               | what if investment simulator |                                 |        |
@@ -63,6 +63,8 @@ Returns success if id and pwd is correct, else error
 Returns success if id exists, old_id and pwd is correct, else error
 - PUT to users/change/:uid
 Returns success if id exists and pwd matches, else error
+- POST to users/change/:uid
+Returns success if id's wallet exists and coin exists in wallet, else error
 - PUT to /crypto/
 Returns success and top crypto data if fetching crypto api works, else returns error
 - POST to /crypto/
