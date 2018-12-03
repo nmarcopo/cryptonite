@@ -100,7 +100,7 @@ Explicit steps:
     5. Start and run application as you would with a normal application.
     
 ### How to test the clients:
-The client can be tested by multiple ways:
+The clients can be tested by multiple ways:
 * Add incorrect/out of the range values to see if the client and the server handles it correctly.
 * The client also checks if the server response always gives back result: success.
 * The client can also be manually checked with current crypto currency price available widely in the net.
