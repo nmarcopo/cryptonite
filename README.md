@@ -98,3 +98,9 @@ Explicit steps:
     3. Download the Project onto a smartWatch device.
     4. Make sure the server is running properly.
     5. Start and run application as you would with a normal application.
+    
+### How to test this client:
+The client can be tested by multiple ways:
+    1. Add incorrect/out of the range values to see if the client and the server handles it correctly.
+    2. The client also checks if the server response always gives back result: success.
+    3. The client can also be manually checked with current crypto currency price available widely in the net.
