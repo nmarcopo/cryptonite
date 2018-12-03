@@ -99,7 +99,7 @@ Explicit steps:
     4. Make sure the server is running properly.
     5. Start and run application as you would with a normal application.
     
-### How to test this client:
+### How to test the clients:
 The client can be tested by multiple ways:
 * Add incorrect/out of the range values to see if the client and the server handles it correctly.
 * The client also checks if the server response always gives back result: success.
