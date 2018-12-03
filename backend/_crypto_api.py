@@ -30,6 +30,7 @@ class _crypto_api:
         awaitList = []
         awaitDict = {}
         return_days = []
+        current_price = self.pricecache
         # If there is no pre-loaded dataset
         if not dataset:
             loop = asyncio.get_event_loop()
@@ -57,7 +58,7 @@ class _crypto_api:
                 cryptoDataDaysAgo = resp['Data'][0]['open']
                 if cryptoDataDaysAgo == 0:
                     continue
-                cryptoDataToday = resp['Data'][args[0]]['close']
+                cryptoDataToday = current_price[key]
                 # calculate amounts
                 amount = args[1]
                 investment.append(cryptoDataDaysAgo * amount)
@@ -100,7 +101,6 @@ class _crypto_api:
             data["breakdown"].append(mydict)
         return json.dumps(data)
 
-        
     # Find hottest coldest data from the cache
     def find_hottest_coldest(self, days, topN, mode):
         preloaded = {}
