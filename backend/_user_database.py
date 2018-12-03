@@ -9,7 +9,7 @@ class _user_database:
         self.user_pwd = {}
         self.user_wallet = {}
         self.pwd_db = user_pwd_db
-        self.w_db = user_w_db
+        self.w_db = user_w_db           # Dummy database for testing
         self.load()
     
     # Set user and pwd
