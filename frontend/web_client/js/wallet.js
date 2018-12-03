@@ -1,3 +1,4 @@
+// onload function
 $(function () {
 	// Executes when use presses the - button on any of their crypto. 
 	// Removes the list item and deletes the crypto from the user's database.
@@ -5,17 +6,21 @@ $(function () {
 		var tr = this.parentNode.parentNode.parentNode;
 		var currencyToDelete = tr.childNodes[1].innerText;
 		currencyToDelete = currencyToDelete.substring(0, currencyToDelete.length - 1);
+		// gets payload ready for request
 		var putRequest = {
 			"coin": currencyToDelete
 		}
 		var xhr_deleteCurrencyFromWallet = new XMLHttpRequest();
-
+		// request to delete from wallet
 		xhr_deleteCurrencyFromWallet.open("POST", 'http://student04.cse.nd.edu:52109/users/change/' + sessionStorage.getItem("cryptoniteLogIn"), true);
 		xhr_deleteCurrencyFromWallet.onload = function (e) {
 			responseDict = JSON.parse(xhr_deleteCurrencyFromWallet.responseText);
+			// if it's removed from wallet, removes from HTML
 			if (responseDict['result'] == 'success') {
 				tr.parentNode.removeChild(tr);
-			} else {
+			} 
+			// else notify user
+			else {
 				var nContainer = document.getElementById("notifContainer");
 				createNotification("danger", nContainer, "Oops! Looks like the currency didn't delete properly. Try again.");
 			}
@@ -30,40 +35,48 @@ $(function () {
 	getWalletContents(sessionStorage.getItem("cryptoniteLogIn"));
 })
 
+// function for add button
 function addField() {
+	// grabs fields for request
 	var cryptoField = document.getElementById("cryptoInput").value.toUpperCase();
 	var costField = document.getElementById("costInput").value;
+	// wrong input
 	if (Number(costField) < 0.01) {
 		var nContainer = document.getElementById("notifContainer");
 		createNotification("danger", nContainer, "Double check input fields. You need to add at least $0.01 of any crypto.");
 		return;
 	}
+	// formats input for request
 	var cryptoL = [cryptoField];
 	var putRequest = {
 		'crypto': cryptoL
 	};
-	var xhr_findPrice = new XMLHttpRequest();
 
+	// PUT request to get price of Crypto
+	var xhr_findPrice = new XMLHttpRequest();
 	xhr_findPrice.open("PUT", 'http://student04.cse.nd.edu:52109/crypto/', true);
+	// function for when request is called
 	xhr_findPrice.onload = function (e) {
 		responseDict = JSON.parse(xhr_findPrice.responseText);
+		// if PUT request for crypto price works
 		if (responseDict['result'] == 'success') {
+			// grabs returned crypto price
 			var cryptoPrice = responseDict[cryptoField];
+			// calculates the amount of bitcoins from how much money user put in
 			var amount = Number(costField) / Number(cryptoPrice);
-			console.log(cryptoField);
-			console.log(amount);
 			var asset = {}
+			// gets payload for POST request to add to user wallet
 			asset[cryptoField] = amount;
 			var postRequest = {
 				'asset': asset
 			}
+			// POST request to add to user wallet
 			var xhr_walletAdd = new XMLHttpRequest();
 			var uid = sessionStorage.getItem("cryptoniteLogIn");
-			console.log(uid);
 			xhr_walletAdd.open("POST", 'http://student04.cse.nd.edu:52109/users/' + uid, true);
 			xhr_walletAdd.onload = function (f) {
 				responseDict = JSON.parse(xhr_walletAdd.responseText);
-				console.log(responseDict['result']);
+				// if failure notify
 				if (responseDict['result'] != 'success') {
 					var nContainer = document.getElementById("notifContainer");
 					createNotification("danger", nContainer, "Could not add to wallet.");
@@ -71,11 +84,14 @@ function addField() {
 				getWalletContents(sessionStorage.getItem("cryptoniteLogIn"));
 			}
 			xhr_walletAdd.send(JSON.stringify(postRequest));
-		} else {
+		} 
+		// if wrong, notifies user
+		else {
 			var nContainer = document.getElementById("notifContainer");
 			createNotification("danger", nContainer, "Double check input fields.");
 		}
 	}
+	// PUT request is called
 	xhr_findPrice.send(JSON.stringify(putRequest));
 
 
@@ -84,27 +100,29 @@ function addField() {
 // Get contents of user's wallet
 function getWalletContents(uid) {
 	var dynamicContainer = document.getElementById("dynamicallyAddCryptoToWallet");
+	// removes previous wallet results in the HTML
 	if (dynamicContainer.hasChildNodes()) {
 		while (dynamicContainer.firstChild) {
 			dynamicContainer.removeChild(dynamicContainer.firstChild);
 		}
 	}
+	// request to get user's wallet
 	var xhr_getWalletContents = new XMLHttpRequest();
 	xhr_getWalletContents.open("GET", 'http://student04.cse.nd.edu:52109/users/' + uid, true);
+	// function on request
 	xhr_getWalletContents.onload = function (e) {
 		responseDict = JSON.parse(xhr_getWalletContents.responseText);
+		// if succeeds
 		if (responseDict['result'] == 'success') {
 			// give success message
-			console.log(xhr_getWalletContents.responseText);
 			walletContentsResp = JSON.parse(xhr_getWalletContents.responseText);
 			var container = document.getElementById("dynamicallyAddCryptoToWallet");
-
-			console.log("does the wallet exist: " + walletContentsResp.hasOwnProperty("wallet"));
+			// notifies if wallet's empty
 			if (!walletContentsResp.hasOwnProperty("wallet") || walletContentsResp["wallet"].length == 0) {
 				createNotification("info", container.parentNode.parentNode, "Looks like you haven't added anything to your wallet yet. Add some above!");
 				return;
 			}
-
+			// changes wallet cryptos into list of just the cryptos
 			walletArray = walletContentsResp["wallet"][0];
 			var cryptoL = [];
 			for (const [key, value] of Object.entries(walletArray)) {
@@ -113,17 +131,17 @@ function getWalletContents(uid) {
 			var putRequest = {
 				'crypto': cryptoL
 			};
-			console.log(cryptoL)
 			var xhr_findPrice = new XMLHttpRequest();
 
 			var cryptoToWallet = ``;
+			// request to get price for each crypto in user's wallet
 			xhr_findPrice.open("PUT", 'http://student04.cse.nd.edu:52109/crypto/', true);
 			xhr_findPrice.onload = function (e) {
 				responseDict = JSON.parse(xhr_findPrice.responseText);
 				if (responseDict['result'] == 'success') {
 					var amountDict = responseDict;
 					delete amountDict['result'];
-					console.log(amountDict)
+					// adds table entry to HTML for each crypto in wallet
 					for (const [key, value] of Object.entries(walletArray)) {
 						var dAmount = Number(value) * Number(amountDict[key])
 						cryptoToWallet += `<tr class="table-active">
@@ -141,17 +159,15 @@ function getWalletContents(uid) {
 					</tr>`;
 					}
 					container.insertAdjacentHTML('beforeend', cryptoToWallet);
-				} else {
-					// var nContainer = document.getElementById("notifContainer");
-					// createNotification("danger", nContainer, "Double check input fields.");
-					console.log("fail");
 				}
 			}
 			xhr_findPrice.send(JSON.stringify(putRequest));
 
-		} else {
+		} 
+		// if fails
+		else {
 			var nContainer = document.getElementById("notifContainer");
-			createNotification("danger", nContainer, "Days must be a populated field.");
+			createNotification("danger", nContainer, "Error grabbing user's wallet.");
 		}
 	}
 	xhr_getWalletContents.send(null);
