@@ -1,4 +1,4 @@
-# Cryptonite, the Crypto Currency Forecaster
+# Cryptonite, the essential Crypto Currency Assistant
 
 [Link to GitHub repository for reference](https://github.com/nmarcopo/programmingParadigmsProject)
 
