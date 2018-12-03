@@ -24,7 +24,7 @@ $(function () {
             </select>
         </td>
         <td>
-            <input type="number" min="0" class="form-control border imagineAmountInput" aria-label="Amount">
+            <input type="number" min="0.00001" class="form-control border imagineAmountInput" aria-label="Amount">
         </td>
         <td>
             <button id="imagineRemoveButton" class="btn btn-warning" type="button">-</button>
@@ -82,10 +82,11 @@ function sendImagineRequest() {
         } else {
             // fails on server error
             $("#imagineProgress").addClass("d-none");
+            console.log(xhr_putImagine.responseText);
             createNotificationImagine("danger", loginContainer, "Oh snap! Something went wrong, try again.");
         }
     }
-    if(document.getElementById("totalMoneyCard")){
+    if (document.getElementById("totalMoneyCard")) {
         var moneyCard = document.getElementById("totalMoneyCard");
         moneyCard.parentNode.removeChild(moneyCard);
     }
@@ -93,6 +94,7 @@ function sendImagineRequest() {
     console.log("this happened just before request sent");
     xhr_putImagine.send(JSON.stringify(bigDict));
     console.log("this happened after request sent");
+    console.log(bigDict);
     // {'asset':[{'BTC':2, "XRP":100}]}
 }
 

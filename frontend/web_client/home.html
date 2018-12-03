@@ -32,42 +32,30 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="span6" style="float: none; margin: 0 auto;">
-									<table class="table table-hover">                               
-										<thead>
-											<tr class="table-primary" scope="col">
-												<th>Wallet</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="table-active">
-												<td>
-													<span class="input-group-text">Crypto</span>
-												</td>
-												<td>
-													<span class="input-group-text">$</span>
-												</td>
-												<td>
-													<div class="input-group-append">
-														<button id = "removeButton" class="btn btn-warning" type="button" id="removeButton">-</button>
-													</div>
-												</td>
-											</tr>
-											<tr class="table-active">
-												<td>
-													<input type="text" class="form-control" id="cryptoInput" placeholder="Crypto">
-												</td>
-												<td>
-													<input type="number" min="1" max="2000" class="form-control" id="costInput" placeholder="$">
-												</td>
-												<td class="d-flex justify-content-center">
-													<button id = "addButton" type="button" class="btn btn-success" id="addButton">+</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>	
-								</div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr class="table-primary" scope="col">
+                                                <th>Wallet</th>
+                                                <th>Value ($)</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dynamicallyAddCryptoToWallet">
+                                        </tbody>
+                                        <tr class="table-active">
+                                            <td>
+                                                <input type="text" class="form-control" id="cryptoInput" placeholder="Crypto">
+                                            </td>
+                                            <td>
+                                                <input type="number" min="0.00" max="2000" class="form-control" id="costInput"
+                                                    placeholder="$">
+                                            </td>
+                                            <td class="d-flex justify-content-center">
+                                                <button id="addButton" type="button" class="btn btn-success" id="addButton">+</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -15,7 +15,7 @@ $(function () {
             jQuery("#settings").addClass("d-none");
             jQuery("#discover").addClass("d-none");
             jQuery("#imagine").addClass("d-none");
-        }else{
+        } else {
             // hide sign up and login buttons if user is signed in
             jQuery("#signUp").addClass("d-none");
             jQuery("#logIn").addClass("d-none");

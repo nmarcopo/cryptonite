@@ -1,6 +1,6 @@
 // Auto run when index.html Welcome page is loaded
 $(function () {
-    if(sessionStorage.getItem("cryptoniteLogIn") != null && sessionStorage.getItem("cryptoniteLogIn") != "null"){
+    if (sessionStorage.getItem("cryptoniteLogIn") != null && sessionStorage.getItem("cryptoniteLogIn") != "null") {
         window.location.replace('home.html');
     }
     $("#modalInsert").load("res/modalSignUp.html", function () {
@@ -49,7 +49,6 @@ function signUpSubmit() {
                 uidNode.setAttribute("readonly", '""');
                 passNode.setAttribute("readonly", '""');
                 passConfNode.setAttribute("readonly", '""');
-
                 createNotification("success", loginContainer, "Well Done! You successfully created an account. Please close this window.");
             } else {
                 // fails when there is already an existing user
