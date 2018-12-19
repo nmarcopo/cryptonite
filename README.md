@@ -1,7 +1,8 @@
 # Cryptonite, the essential Crypto Currency Assistant
 
+[Try it out!](http://marcopo.li/cryptonite)
 [Link to GitHub repository for reference](https://github.com/nmarcopo/programmingParadigmsProject)
-
+[Project Presentation](https://docs.google.com/presentation/d/1o4zhbzy973kDgLjlrRFeWMJC4mfpDT5fnGCwwasmooA/edit?usp=sharing)
 
 ## Members
 * Austin Sura (asura) 
