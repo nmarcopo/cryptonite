@@ -7,7 +7,7 @@ import json
 
 class TestServer(unittest.TestCase):
 
-	SITE_URL = "http://student04.cse.nd.edu:52109" # replace this with your port number
+	SITE_URL = "http://marcopo.li:52109" # replace this with your port number
 	USERS_URL = SITE_URL + "/users/"
 	CRYPTO_URL = SITE_URL + "/crypto/"
 	RESET_URL = SITE_URL + "/reset/"

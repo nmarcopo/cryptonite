@@ -102,8 +102,11 @@ class Server:
         # Configuration for the server
         conf = { 
                 'global' : {
-                        'server.socket_host': 'student04.cse.nd.edu',
-                        'server.socket_port': 52109, 
+                        'server.socket_host': 'marcopo.li',
+                        'server.socket_port': 52109,
+                        'server.ssl_module':'builtin',
+                        'server.ssl_certificate':'fullchain.pem',
+                        'server.ssl_private_key':'privkey.pem',
                     },
                 '/' : { 'request.dispatch': dispatcher,
                         'tools.CORS.on': True,

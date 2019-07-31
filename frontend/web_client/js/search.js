@@ -41,7 +41,7 @@ function discover() {
 
 	// POST request
 	var xhr_discover = new XMLHttpRequest();
-	xhr_discover.open("POST", 'http://student04.cse.nd.edu:52109/crypto/', true);
+	xhr_discover.open("POST", 'https://marcopo.li:52109/crypto/', true);
 	// function when post request is sent 
 	xhr_discover.onload = function (e) {
 		responseDict = JSON.parse(xhr_discover.responseText);
