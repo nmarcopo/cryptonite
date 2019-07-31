@@ -28,7 +28,7 @@ function changeEmail() {
             'new_user': newEmail
         }
         var xhr_putNewUser = new XMLHttpRequest();
-        xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/change/', true);
+        xhr_putNewUser.open("PUT", 'https://marcopo.li:52109/users/change/', true);
         xhr_putNewUser.onload = function (e) {
             responseDict = JSON.parse(xhr_putNewUser.responseText);
             if (responseDict['result'] == 'success') {
@@ -61,7 +61,7 @@ function changePassword() {
             'new_pwd': newPassword
         }
         var xhr_putNewUser = new XMLHttpRequest();
-        xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/' + currentEmail, true);
+        xhr_putNewUser.open("PUT", 'https://marcopo.li:52109/users/' + currentEmail, true);
         xhr_putNewUser.onload = function (e) {
             responseDict = JSON.parse(xhr_putNewUser.responseText);
             if (responseDict['result'] == 'success') {
@@ -92,7 +92,7 @@ function deleteUser() {
                 'pwd': passwd
             }
             var xhr_putNewUser = new XMLHttpRequest();
-            xhr_putNewUser.open("PUT", 'http://student04.cse.nd.edu:52109/users/change/' + currentEmail, true);
+            xhr_putNewUser.open("PUT", 'https://marcopo.li:52109/users/change/' + currentEmail, true);
             xhr_putNewUser.onload = function (e) {
                 responseDict = JSON.parse(xhr_putNewUser.responseText);
                 if (responseDict['result'] == 'success') {

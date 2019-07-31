@@ -71,7 +71,7 @@ function sendImagineRequest() {
 
     // Send PUT request to get crypto information
     var xhr_putImagine = new XMLHttpRequest();
-    xhr_putImagine.open("PUT", 'http://student04.cse.nd.edu:52109/crypto/whatif/', true);
+    xhr_putImagine.open("PUT", 'https://marcopo.li:52109/crypto/whatif/', true);
     xhr_putImagine.onload = function (e) {
         responseDict = JSON.parse(xhr_putImagine.responseText);
         if (responseDict['result'] == 'success') {

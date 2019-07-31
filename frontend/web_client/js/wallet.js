@@ -12,7 +12,7 @@ $(function () {
 		}
 		var xhr_deleteCurrencyFromWallet = new XMLHttpRequest();
 		// request to delete from wallet
-		xhr_deleteCurrencyFromWallet.open("POST", 'http://student04.cse.nd.edu:52109/users/change/' + sessionStorage.getItem("cryptoniteLogIn"), true);
+		xhr_deleteCurrencyFromWallet.open("POST", 'https://marcopo.li:52109/users/change/' + sessionStorage.getItem("cryptoniteLogIn"), true);
 		xhr_deleteCurrencyFromWallet.onload = function (e) {
 			responseDict = JSON.parse(xhr_deleteCurrencyFromWallet.responseText);
 			// if it's removed from wallet, removes from HTML
@@ -56,7 +56,7 @@ function addField() {
 	// POST request to add to user wallet
 	var xhr_walletAdd = new XMLHttpRequest();
 	var uid = sessionStorage.getItem("cryptoniteLogIn");
-	xhr_walletAdd.open("POST", 'http://student04.cse.nd.edu:52109/users/' + uid, true);
+	xhr_walletAdd.open("POST", 'https://marcopo.li:52109/users/' + uid, true);
 	xhr_walletAdd.onload = function (f) {
 		responseDict = JSON.parse(xhr_walletAdd.responseText);
 		// if failure notify
@@ -80,7 +80,7 @@ function getWalletContents(uid) {
 	}
 	// request to get user's wallet
 	var xhr_getWalletContents = new XMLHttpRequest();
-	xhr_getWalletContents.open("GET", 'http://student04.cse.nd.edu:52109/users/' + uid, true);
+	xhr_getWalletContents.open("GET", 'https://marcopo.li:52109/users/' + uid, true);
 	// function on request
 	xhr_getWalletContents.onload = function (e) {
 		responseDict = JSON.parse(xhr_getWalletContents.responseText);
@@ -106,7 +106,7 @@ function getWalletContents(uid) {
 
 			var cryptoToWallet = ``;
 			// request to get price for each crypto in user's wallet
-			xhr_findPrice.open("PUT", 'http://student04.cse.nd.edu:52109/crypto/', true);
+			xhr_findPrice.open("PUT", 'https://marcopo.li:52109/crypto/', true);
 			xhr_findPrice.onload = function (e) {
 				responseDict = JSON.parse(xhr_findPrice.responseText);
 				if (responseDict['result'] == 'success') {
